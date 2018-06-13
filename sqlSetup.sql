@@ -86,15 +86,16 @@ CREATE TABLE circle_msg
     sender_uid varchar(10) NOT NULL,
     circle_cid int NOT NULL,
     context varchar(200) NOT NULL,
+    msg_time datetime DEFAULT CURRENT_TIMESTAMP(),
     PRIMARY KEY (cmid),
     FOREIGN KEY (sender_uid) REFERENCES user (uid),
     FOREIGN KEY (circle_cid) REFERENCES circle (cid)
 );
 CREATE TABLE friend_with
 (
-    user_uid1 varchar(10),
-    user_uid2 varchar(10),
-    PRIMARY KEY (user_uid1, user_uid2),
-    FOREIGN KEY (user_uid1) REFERENCES user (uid),
-    FOREIGN KEY (user_uid2) REFERENCES user (uid)
+    user_uid varchar(10),
+    friend_uid varchar(10),
+    PRIMARY KEY (user_uid, friend_uid),
+    FOREIGN KEY (user_uid) REFERENCES user (uid),
+    FOREIGN KEY (friend_uid) REFERENCES user (uid)
 );
