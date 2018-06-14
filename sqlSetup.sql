@@ -6,9 +6,9 @@ CREATE TABLE user
 (
     uid varchar(10),
     psw varchar(10) NOT NULL,
-    email varchar(20),
+    email varchar(20) NOT NULL,
     address varchar(50),
-    balance varchar(10),
+    balance float DEFAULT 0,
     PRIMARY KEY (uid)
 );
 INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`)

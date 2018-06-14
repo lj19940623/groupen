@@ -5,14 +5,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $myusername = mysqli_real_escape_string($db,$_POST['username']);
     $mypassword = mysqli_real_escape_string($db,$_POST['password']);
     $myemail = mysqli_real_escape_string($db,$_POST['email']);
-    $sql = "INSERT INTO identification (username, psw, email) VALUES ('" .$myusername. "', '" .$mypassword. "', '" .$myemail. "')";
+    $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myusername. "', '" .$mypassword. "', '" .$myemail. "')";
     if(mysqli_query($db, $sql)){
-
     }else{
          $register_error = " Username already used ";
     }
 }else{
-    $register_error = "No form submitted";
+    $register_error = "";
+    // $register_error = "No form submitted";
 }
  ?>
 <html>
