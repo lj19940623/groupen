@@ -15,6 +15,7 @@ INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`)
 VALUES ("jian","123","jian.li1@uclagary.ca","address1",100);
 CREATE TABLE product
 (
+<<<<<<< Updated upstream
     pid int NOT NULL AUTO_INCREMENT,
     user_uid varchar(10) NOT NULL,
     price float NOT NULL,
@@ -98,4 +99,26 @@ CREATE TABLE friend_with
     PRIMARY KEY (user_uid, friend_uid),
     FOREIGN KEY (user_uid) REFERENCES user (uid),
     FOREIGN KEY (friend_uid) REFERENCES user (uid)
+=======
+pid int,
+user_uid varchar(10) NOT NULL,
+price float NOT NULL,
+description varchar(100) NOT NULL,
+tag varchar(10),
+category varchar(10) NOT NULL,
+photo_url varchar(30),
+start_time datetime NOT NULL,
+end_time datetime NOT NULL,
+PRIMARY KEY (pid),
+FOREIGN KEY (user_uid) REFERENCES user (uid)
+);
+CREATE TABLE groups
+(
+gid int,
+starter_uid varchar(10) NOT NULL,
+product_pid int NOT NULL,
+PRIMARY KEY (gid),
+FOREIGN KEY (starter_uid) REFERENCES user (uid),
+FOREIGN KEY (product_pid) REFERENCES product (pid)
+>>>>>>> Stashed changes
 );

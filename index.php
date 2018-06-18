@@ -24,6 +24,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])) {
 if(isset($_SESSION['views'])) $_SESSION['views']=$_SESSION['views']+1;
 else $_SESSION['views']=1;
 ?>
+
+
 <html>
    <head>
       <title>Welcome </title>
@@ -56,3 +58,13 @@ else $_SESSION['views']=1;
    </body>
 
 </html>
+
+<?php
+// View Counter
+if(isset($_SESSION['views']))
+{
+    $_SESSION['views']=$_SESSION['views']+1;
+} else {
+    $_SESSION['views']=1;
+}
+?>
