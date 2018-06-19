@@ -18,6 +18,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])) {
   <title>Groupen</title>
   <style>
   <?php include 'Resources/CSS/topnav.css'; ?>
+  <?php include 'Resources/CSS/topnavRight.css';?>
   </style>
 </head>
 <body>
@@ -27,8 +28,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])) {
   <a href="order.php">My orders</a>
   <a href="group.php">My group</a>
   <a href="logout.php">logout</a>
+  <!-- 这一段写的感觉不是蛮好的其实 要改改 -->
+  <div class="topnavRight">
+    <?php
+      if(isset($_SESSION['login_user'])){
+        echo "<a href=\"#\">Welcome back, ".$_SESSION['login_user']."</a>";
+      }else{
+        echo "<a href=\"login.php\">Log in</a>
+              <a href=\"signup.php\">Sign up</a>";
+      }
+      ?>
   </div>
-
+  </div>
   <?php
   if(isset($_SESSION['login_user'])) {
     echo "<div> Nice, you loged in: ". $_SESSION['login_user'] . ". ";
@@ -44,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])) {
   ?>
 </body>
 <body>
-  
+
 </body>
 
 </html>

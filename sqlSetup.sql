@@ -14,6 +14,8 @@ CREATE TABLE user
 );
 INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`)
 VALUES ("jian","123","jian.li1@uclagary.ca","address1",100, 1);
+VALUES ("1","1","1@1","address2",1000,0);
+VALUES ("2","2","2@2","address3",1000,1);
 CREATE TABLE product
 (
     pid int NOT NULL AUTO_INCREMENT,
