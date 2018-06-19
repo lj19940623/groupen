@@ -1,29 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>登录页面</title>
+<?php
+  require 'SQLDB.class.php';
+  // if has form post and not login yet
+  if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])) {
+    $postUsername = $_POST['username'];
+    $postPassword = $_POST['password'];
+    $link = groupenDB::getInstance();
+    $count = $link -> login($postUsername, $postPassword);
+    if($count!=1){
+      echo "<label> Wrong username or password. Please try again. </label>";
+    }
+  }
+?>
 
-    <link rel="stylesheet" type="text/css" href="login.css"/>
-    <script type="text/javascript" src="login.js"></script>
+<head>
+  <title>Log in</title>
 </head>
 
 <body>
-<div id="login_frame">
-
-    <p id="image_logo"><img src="images/login/fly.png"></p>
-
-    <form method="post" action="login.js">
-
-        <p><label class="label_input">用户名</label><input type="text" id="username" class="text_field"/></p>
-        <p><label class="label_input">密码</label><input type="text" id="password" class="text_field"/></p>
-
-        <div id="login_control">
-            <input type="button" id="btn_login" value="登录" onclick="login();"/>
-            <a id="forget_pwd" href="forget_pwd.html">忘记密码？</a>
-        </div>
-    </form>
-</div>
+  <?php
+  if(isset($_SESSION['login_user'])) {
+    sleep(5);
+    echo "<label>You have log in, returning to the index.</label>";
+    //header("Location: index.php");
+  } else {
+    echo '<div> <form action = "login.php" method = "post">
+    <label>UserName:  </label> <input type = "text" name = "username" required /><br>
+    <label>Password:  </label> <input type = "password" name = "password" required /><br>
+    <input type = "submit" value = " Log in "/>';
+  }
+  ?>
 
 </body>
 </html>

@@ -88,7 +88,7 @@ class groupenDB{
 
   // function for listing Products
   public function listing($searchType, $param, $order){
-    
+
   }
 
 //===================================================================
