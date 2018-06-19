@@ -1,0 +1,14 @@
+TODO LIST:
+1. 网站UI
+2. 符合project specification的要求，目前我们有几项没有达到
+3. SQL的封装还没有完全写完 -- 我做
+4. Database的细节
+5. Android app -- 我做
+6. 管理员界面
+
+6.18
+1. 给网站UI添了一点东西
+2. 加了admin到user表
+3. 加了name到product表
+4. 增添了许多新的function到SQLDB里
+5. 修改了网页和SQLDB之间的关系， 现在是完全连上了
