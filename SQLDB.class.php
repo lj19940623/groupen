@@ -1,4 +1,5 @@
 <?php
+session_start();
 //Encapsulation of SQL
 class groupenDB{
   public $server;
@@ -7,11 +8,19 @@ class groupenDB{
   public $dbname;
 
   private $database;
+  private static $link;
 
-  //
-  public function __construct(){
+  public static function getInstance(){
+    if(!isset(self::$link)){
+      self::$link = new self("/config.php");
+    }
+    return self::$link;
+  }
+
+  // Construct the database
+  public function __construct($configPath){
     // Set by config
-    $config = include_once(dirname(__FILE__)."/config.php");
+    $config = include_once(dirname(__FILE__).$configPath);
     $this->server = $config['DB_SERVER'];
     $this->username = $config['DB_USERNAME'];
     $this->password = $config['DB_PASSWORD'];
@@ -21,18 +30,75 @@ class groupenDB{
     $this->connect();
   }
 
+  // function for connecting to database
   public function connect(){
     $this->database = mysqli_connect($this->server, $this->username, $this->password, $this->dbname) or die("Connection failed: " . mysqli_connect_error());
   }
 
-  public function test(){
-    return $this->server;
+//===================================================================
+// Account part
+
+  // function for checking user login.
+  public function login($userAccount, $userPassword){
+    $myusername = mysqli_real_escape_string($this->database, $userAccount);
+    $mypassword = mysqli_real_escape_string($this->database, $userPassword);
+    $sql = "SELECT uid FROM user WHERE uid = '$myusername' and psw = '$mypassword'";
+    $result = mysqli_query($this->database,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+    if($count == 1) {
+      $_SESSION['login_user'] = $userAccount;
+    }
   }
 
-  public function
+  // function for registration
+  public function register($userAccount, $userPassword, $userEmail){
+    $myUsername = mysqli_real_escape_string($this->database, $userAccount);
+    $myPassword = mysqli_real_escape_string($this->database, $userPassword);
+    $myEmail = mysqli_real_escape_string($this->database, $userEmail);
+
+    // check registered
+    $sql = "SELECT uid FROM user WHERE uid = '$myUsername'";
+    $result = mysqli_query($this->database,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($result);
+    if($count > 0 ) {
+      return "Username is registered.";
+    }
+
+    // insert with checking valid
+    $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myUsername. "', '" .$myPassword. "', '" .$myEmail. "')";
+    if(mysqli_query($this->database, $sql)){
+      $_SESSION['login_user'] = $userAccount;
+    }
+
+    return "Unknown error";
+  }
+
+//===================================================================
+// Product part
+
+  // function for searching products by search bar
+  public function search($productName){
+    $myName = mysqli_real_escape_string($this->database, $productName);
+    $sql = "SELECT name FROM product WHERE name LIKE '$myName%'";
+    $result = mysqli_query($this->database,$sql);
+    return $result;
+  }
+
+  // function for listing Products
+  public function listing($searchType, $param, $order){
+    
+  }
+
+//===================================================================
+// Orders part
+
+
+
+//===================================================================
+// Group part
 
 
 }
-
-
 ?>
