@@ -14,19 +14,19 @@
 
 <head>
   <title>Log in</title>
+  <style><?php include 'Resources/CSS/general.css';?></style>
 </head>
 
 <body>
   <?php
   if(isset($_SESSION['login_user'])) {
-    sleep(5);
     echo "<label>You have log in, returning to the index.</label>";
-    //header("Location: index.php");
+    header("Location: index.php");
   } else {
-    echo '<div> <form action = "login.php" method = "post">
+    echo '<div style="width:100%"> <form action = "login.php" method = "post">
     <label>UserName:  </label> <input type = "text" name = "username" required /><br>
-    <label>Password:  </label> <input type = "password" name = "password" required /><br>
-    <input type = "submit" value = " Log in "/>';
+    <label>Password:  </label> <input type = "password" name = "password" required /><br><br>
+    <input type = "submit" value = " Log in "/></div>';
   }
   ?>
 
