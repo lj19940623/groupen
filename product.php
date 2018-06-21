@@ -11,6 +11,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         $productDiv = $_GET["productDiv"]-1;
     }
 }
+if(isset($_GET["makeNewGroup"])){
+  if(isset($_GET["makeNewGroup"])){
+}
 
 $link = groupenDB::getInstance();
 ?>
@@ -61,7 +64,9 @@ $link = groupenDB::getInstance();
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
     while($r = mysqli_fetch_assoc($productList)) {
-        echo "pid:" . $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
+        echo "pid:" . $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  ";
+        echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
+        echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
     }
     ?>
     <br>
