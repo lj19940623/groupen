@@ -3,6 +3,16 @@ current group page
 -->
 <?php
 require 'SQLDB.class.php';
+$groupDiv = 0;
+$numPerDiv = 5;
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+    if(isset($_GET["groupDiv"])){
+        $productDiv = $_GET["groupDiv"]-1;
+    }
+}
+
+
+$link = groupenDB::getInstance();
 ?>
 
 <html>
@@ -26,7 +36,7 @@ require 'SQLDB.class.php';
             <?php
             if(isset($_SESSION['login_user'])){
                 echo "<a href=\"logout.php\">Log out</a>
-                <a >Welcome back, ".$_SESSION['login_user']."</a>
+                <a href=\"account.php\">Welcome back, ".$_SESSION['login_user']."</a>
                 <a href=\"message.php\">Message</a>
                 <a href=\"account.php#myorder\">My orders</a>
                 <a href=\"account.php#mygroup\">My groups</a>
@@ -47,21 +57,23 @@ require 'SQLDB.class.php';
     <!-- Other things -->
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $productList = $link -> listSome($numPerDiv,($numPerDiv*$productDiv));
-    $numOfProduct = $link -> countProduct();
-    echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
-    while($r = mysqli_fetch_assoc($productList)) {
-        echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
-        echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] . "  Price:" . $r["price"] ."$<br>";
-        echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
-        echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
-        echo " member discount: " . $r["discount"]*100 . "% ~~";
-        echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
+    $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv));
+    $numOfGroup = $link -> countGroup();
+    echo "<br> we have ". $numOfGroup . " Groups for groupen now <br><br>";
+    while($r = mysqli_fetch_assoc($groupList)) {
+        // TODO: add later
+        echo "r<br>";
+        // echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
+        // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] . "  Price:" . $r["price"] ."$<br>";
+        // echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
+        // echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
+        // echo " member discount: " . $r["discount"]*100 . "% ~~";
+        // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
     }
     ?>
     <br>
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
+          <input type="number" name="productDiv" min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
           <input type="submit" value="Go">
     </form>
 

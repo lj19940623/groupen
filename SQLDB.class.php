@@ -85,6 +85,18 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+    public function searchByPid($pid){
+        $sql = "SELECT * FROM product WHERE pid=".$pid."";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function validateProductByPid($pid){
+        $sql = "SELECT end_time FROM product WHERE pid=".$pid."";
+        $result = mysqli_query($this->database,$sql);
+        // TODO: validate if it is not end
+        // mysqli_fetch_array($result)[0]
+        return true;
+    }
 
     // function for listing Products
     // public function listing($searchType, $param, $order){
@@ -105,17 +117,21 @@ class groupenDB{
     // function for listing Products
     // public function listing($searchType, $param, $order){
     public function listGroup($numPerDiv, $offset){
-        $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $sql = "SELECT * FROM groups ORDER BY gid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
 
     public function countGroup(){
-        $sql = "SELECT COUNT(pid) FROM product";
+        $sql = "SELECT COUNT(gid) FROM groups";
         $result = mysqli_query($this->database, $sql);
         return mysqli_fetch_array($result)[0];
     }
 
+    public function makeNewGroup($u_uid,$p_pid) {
+        $sql = "INSERT INTO groups (starter_uid, product_pid) VALUES ('" .$u_uid. "', " .$p_pid. ")";
+        $result = mysqli_query($this->database, $sql);
+    }
     //===================================================================
     // Orders part
 
