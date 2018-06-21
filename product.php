@@ -11,6 +11,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         $productDiv = $_GET["productDiv"]-1;
     }
 }
+if(isset($_GET["makeNewGroup"])){
+  if(isset($_GET["makeNewGroup"])){
+}
 
 $link = groupenDB::getInstance();
 ?>
