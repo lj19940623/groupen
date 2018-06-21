@@ -3,6 +3,16 @@ current product page
 -->
 <?php
 require 'SQLDB.class.php';
+
+$productDiv = 1;
+$numPerDiv = 5;
+if($_SERVER["REQUEST_METHOD"] == "GET") {
+    if(isset($_GET["productDiv"])){
+        $productDiv = $_GET["productDiv"]-1;
+    }
+}
+
+$link = groupenDB::getInstance();
 ?>
 
 <html>
@@ -46,9 +56,21 @@ require 'SQLDB.class.php';
 
     <!-- Other things -->
     <?php
-    
-    // echo $_SESSION['login_user'];
+    echo "offset = " . ($numPerDiv * $productDiv);
+    $productList = $link -> listSome($numPerDiv,($numPerDiv*$productDiv));
+    $row = mysqli_fetch_array($productList,MYSQLI_ASSOC);
+    $count = mysqli_num_rows($productList);
+    echo "<br> we have ". $count. " products for groupen now <br>";
+    echo $row['name'];
+    foreach ($row as $r) {
+        echo $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
+    }
     ?>
+    <br>
+    <form action="product.php" method="get">
+          <input type="number" name="productDiv" min="1" max="99">
+          <input type="submit" value="Go">
+    </form>
 
 </body>
 
