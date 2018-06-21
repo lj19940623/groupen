@@ -57,14 +57,13 @@ $link = groupenDB::getInstance();
     <!-- Other things -->
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv));
+    $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv),(isset($_GET["pid"])?$_GET["pid"]:-1));
     $numOfGroup = $link -> countGroup();
-    echo "<br> we have ". $numOfGroup . " Groups for groupen now <br><br>";
+    echo "<br> we have ". $numOfGroup . " Groups for groupen in total <br><br>";
     while($r = mysqli_fetch_assoc($groupList)) {
-        // TODO: add later
-        echo "r<br>";
-        // echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
-        // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] . "  Price:" . $r["price"] ."$<br>";
+        echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started By:" . $r["starter_uid"];
+        echo "Product groupen size";
+        echo "  Price:" . "$<br>";
         // echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
         // echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
         // echo " member discount: " . $r["discount"]*100 . "% ~~";

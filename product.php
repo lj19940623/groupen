@@ -70,10 +70,10 @@ $link = groupenDB::getInstance();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
     while($r = mysqli_fetch_assoc($productList)) {
         echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
-        echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] . "  Price:" . $r["price"] ."$<br>";
-        echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
+        echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
+        echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
         echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
-        echo " member discount: " . $r["discount"]*100 . "% ~~";
+        echo " member discount: " . $r["discount"]*100 . "%~";
         echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
     }
     ?>

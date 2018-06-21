@@ -78,17 +78,22 @@ class groupenDB{
     //===================================================================
     // Product part
 
-    // function for searching products by search bar
-    public function search($productName){
-        $myName = mysqli_real_escape_string($this->database, $productName);
-        $sql = "SELECT name FROM product WHERE name LIKE '$myName%'";
+    // // function for searching products by search bar
+    // public function search($productName){
+    //     $myName = mysqli_real_escape_string($this->database, $productName);
+    //     $sql = "SELECT name FROM product WHERE name LIKE '$myName%'";
+    //     $result = mysqli_query($this->database,$sql);
+    //     return $result;
+    // }
+    // public function searchByPid($pid){
+    //     $sql = "SELECT * FROM product WHERE pid=".$pid."";
+    //     $result = mysqli_query($this->database,$sql);
+    //     return $result;
+    // }
+    public function getProductGroupingSizeByPid($pid){
+        $sql = "SELECT grouping_size FROM product WHERE pid=".$pid."";
         $result = mysqli_query($this->database,$sql);
-        return $result;
-    }
-    public function searchByPid($pid){
-        $sql = "SELECT * FROM product WHERE pid=".$pid."";
-        $result = mysqli_query($this->database,$sql);
-        return $result;
+        return mysqli_fetch_array($result)[0];
     }
     public function validateProductByPid($pid){
         $sql = "SELECT end_time FROM product WHERE pid=".$pid."";
@@ -116,8 +121,10 @@ class groupenDB{
 
     // function for listing Products
     // public function listing($searchType, $param, $order){
-    public function listGroup($numPerDiv, $offset){
-        $sql = "SELECT * FROM groups ORDER BY gid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+    public function listGroup($numPerDiv, $offset, $p_pid=-1){
+        $sql = "SELECT * FROM groups ";
+        if($p_pid!=-1) $sql .= " WHERE product_pid = '" . $p_pid . "'";
+        $sql .= "ORDER BY gid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
