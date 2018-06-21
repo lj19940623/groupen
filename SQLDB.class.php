@@ -89,11 +89,8 @@ class groupenDB{
     // function for listing Products
     // public function listing($searchType, $param, $order){
     public function listSome($numPerDiv, $offset){
-      // SELECT * FROM Orders LIMIT 10 OFFSET 15
         $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
-        // $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        // $count = mysqli_num_rows($result);
         return $result;
     }
 
@@ -101,17 +98,28 @@ class groupenDB{
       $sql = "SELECT COUNT(pid) FROM product";
       $result = mysqli_query($this->database, $sql);
       return mysqli_fetch_array($result)[0];
-      // $count = mysqli_num_rows($result);
-      // return $count;
+    }
+    //===================================================================
+    // Group part
+
+    // function for listing Products
+    // public function listing($searchType, $param, $order){
+    public function listGroup($numPerDiv, $offset){
+        $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+
+    public function countGroup(){
+        $sql = "SELECT COUNT(pid) FROM product";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
     }
 
     //===================================================================
     // Orders part
 
 
-
-    //===================================================================
-    // Group part
 
 
 }
