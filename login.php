@@ -12,7 +12,7 @@
       </div>
       <div class="container">
         <label style="float:left">Username: </label> <input type = "text" name = "username" required />
-        <label style="float:left">Password: </label> <input type = "text" name = "password" required />
+        <label style="float:left">Password: </label> <input type = "password" name = "password" required />
 
         <?php
         require 'SQLDB.class.php';
