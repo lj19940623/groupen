@@ -58,9 +58,7 @@ require 'SQLDB.class.php';
     </div> <br>
 
     <!-- Other things -->
-    <?php
-    // echo $_SESSION['login_user'];
-    ?>
+    
 
 </body>
 
