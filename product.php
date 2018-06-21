@@ -4,7 +4,7 @@ current product page
 <?php
 require 'SQLDB.class.php';
 
-$productDiv = 1;
+$productDiv = 0;
 $numPerDiv = 5;
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     if(isset($_GET["productDiv"])){
@@ -56,20 +56,17 @@ $link = groupenDB::getInstance();
 
     <!-- Other things -->
     <?php
-    echo "offset = " . ($numPerDiv * $productDiv);
+    // echo "offset = " . ($numPerDiv * $productDiv);
     $productList = $link -> listSome($numPerDiv,($numPerDiv*$productDiv));
-    $rows = mysqli_fetch_array($productList,MYSQLI_ASSOC);
-    $count = $link->countProduct();
-    echo "<br> we have ". $count. " products for groupen now <br>";
-    echo count($rows)."<br>";
-    echo implode(" | ", $rows)."<br>";
-    foreach ($rows as $row) {
-        // echo $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
+    $numOfProduct = $link -> countProduct();
+    echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
+    while($r = mysqli_fetch_assoc($productList)) {
+        echo "pid:" . $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
     }
     ?>
     <br>
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" min="1" max="99">
+          <input type="number" name="productDiv" min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
           <input type="submit" value="Go">
     </form>
 

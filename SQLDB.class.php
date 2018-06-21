@@ -92,7 +92,7 @@ class groupenDB{
       // SELECT * FROM Orders LIMIT 10 OFFSET 15
         $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        // $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         // $count = mysqli_num_rows($result);
         return $result;
     }
@@ -100,8 +100,9 @@ class groupenDB{
     public function countProduct(){
       $sql = "SELECT COUNT(pid) FROM product";
       $result = mysqli_query($this->database, $sql);
-      $count = mysqli_num_rows($result);
-      return $count;
+      return mysqli_fetch_array($result)[0];
+      // $count = mysqli_num_rows($result);
+      // return $count;
     }
 
     //===================================================================

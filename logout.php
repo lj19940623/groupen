@@ -13,18 +13,6 @@ if(!isset($_SESSION['login_user']))  header('Location: index.php');
     session_start();
     if(session_destroy()) header("Location: index.php");
     else header("Location: logout.php");
-    // if(isset($_SESSION['login_user'])){
-    //   if(session_destroy()) {
-    //      // echo "<label>Log out sucessfully!</label><br>";
-    //      // echo "<label>Returning to index page now.</label>";
-    //      // // just for now
-    //      // sleep(3);
-    //      header("Location: index.php");
-    //   }
-    //     header("Location: logout.php");
-    // }else{
-    //   header("Location: index.php");
-    // }
     ?>
 </body>
 

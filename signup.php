@@ -19,9 +19,9 @@ if(isset($_SESSION["login_user"])){
 </head>
 <body>
     <form action = "signup.php" method = "post">
-        <label>UserName  :</label><input type = "text" name = "username" />
-        <label>Password  :</label><input type = "password" name = "password" >
-        <label>Email  :</label><input type = "email" name = "email" >
+        <label>UserName  :</label><input type = "text" name = "username" required>
+        <label>Password  :</label><input type = "password" name = "password" required>
+        <label>Email  :</label><input type = "email" name = "email" required>
         <input type = "submit" value = " Submit "/>
     </form>
 </body>
