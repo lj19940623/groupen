@@ -58,12 +58,13 @@ $link = groupenDB::getInstance();
     <?php
     echo "offset = " . ($numPerDiv * $productDiv);
     $productList = $link -> listSome($numPerDiv,($numPerDiv*$productDiv));
-    $row = mysqli_fetch_array($productList,MYSQLI_ASSOC);
-    $count = mysqli_num_rows($productList);
+    $rows = mysqli_fetch_array($productList,MYSQLI_ASSOC);
+    $count = $link->countProduct();
     echo "<br> we have ". $count. " products for groupen now <br>";
-    echo $row['name'];
-    foreach ($row as $r) {
-        echo $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
+    echo count($rows)."<br>";
+    echo implode(" | ", $rows)."<br>";
+    foreach ($rows as $row) {
+        // echo $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  " . $r["pid"] . "<br>";
     }
     ?>
     <br>

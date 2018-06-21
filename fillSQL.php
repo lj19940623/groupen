@@ -35,14 +35,14 @@ public function connect(){
 }
 
 //function for inserting products
-public function addProducts(){
+public function addProducts($number){
   // read input from directory
   $dir = "Resources/ProductImage/";
   if (is_dir($dir)){
     $files = scandir($dir);
   }
   // inserting each file
-  for($i=1; $i<50; $i++){
+  for($i=1; $i<$number; $i++){
     $categories = array('Electronics', 'Home Improvement', 'Clothing & Shoes', 'Sport & Outdoors', 'Video Games', 'Kitchen & Dining');
     $userID = 1;
     $name = "product".$i;
@@ -87,9 +87,11 @@ public function addProducts(){
   if(!mysqli_query($this->database, $sql)){
     echo "sql error: ".mysqli_error($this->database)."<br>";
     echo "error in inserting: ".$i."<br>";
-      }
+    die();
+  }
 
     }
+    echo $number." data generate succesfully.";
   }
 }
  ?>
@@ -100,9 +102,17 @@ public function addProducts(){
  </head>
 
  <body>
+   <div> <form action = "fillSQL.php" method = "post">
+       <label>How many number of product:  </label> <input type = "text" name = "number" required /><br>
+       <input type = "submit" value = " gernerate "/>
+   </div>
    <?php
-    $link = fillSQL::getInstance();
-    $link->addProducts();
+   if($_SERVER["REQUEST_METHOD"] == "POST") {
+       $postNumber = $_POST['number'];
+       $link = fillSQL::getInstance();
+       $link->addProducts($postNumber);
+   }
+
     ?>
 
   </body>

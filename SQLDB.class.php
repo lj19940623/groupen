@@ -89,12 +89,19 @@ class groupenDB{
     // function for listing Products
     // public function listing($searchType, $param, $order){
     public function listSome($numPerDiv, $offset){
-// SELECT * FROM Orders LIMIT 10 OFFSET 15
+      // SELECT * FROM Orders LIMIT 10 OFFSET 15
         $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
-        // $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         // $count = mysqli_num_rows($result);
         return $result;
+    }
+
+    public function countProduct(){
+      $sql = "SELECT COUNT(pid) FROM product";
+      $result = mysqli_query($this->database, $sql);
+      $count = mysqli_num_rows($result);
+      return $count;
     }
 
     //===================================================================
