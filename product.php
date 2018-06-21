@@ -1,5 +1,5 @@
 <!--
-current group page
+current product page
 -->
 <?php
 require 'SQLDB.class.php';
@@ -19,8 +19,8 @@ require 'SQLDB.class.php';
     <!-- Top navigation bar -->
     <div class="topnav">
         <a href="index.php">Groupen</a>
-        <a href="product.php">Products</a>
-        <a class="active" href="group.php">Groups</a>
+        <a class="active" href="product.php">Products</a>
+        <a href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
         <div class="topnavRight">
             <?php
@@ -46,6 +46,7 @@ require 'SQLDB.class.php';
 
     <!-- Other things -->
     <?php
+    
     // echo $_SESSION['login_user'];
     ?>
 

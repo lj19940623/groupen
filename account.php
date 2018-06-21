@@ -1,5 +1,5 @@
 <!--
-current group page
+current product page
 -->
 <?php
 require 'SQLDB.class.php';
@@ -7,7 +7,7 @@ require 'SQLDB.class.php';
 
 <html>
 <head>
-    <title>Groupen</title>
+    <title>Product</title>
     <style>
     <?php include 'Resources/CSS/topnav.css'; ?>
     <?php include 'Resources/CSS/topnavRight.css';?>
@@ -19,8 +19,8 @@ require 'SQLDB.class.php';
     <!-- Top navigation bar -->
     <div class="topnav">
         <a href="index.php">Groupen</a>
-        <a href="product.php">Products</a>
-        <a class="active" href="group.php">Groups</a>
+        <a class="active" href="product.php">Products</a>
+        <a href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
         <div class="topnavRight">
             <?php
@@ -38,18 +38,35 @@ require 'SQLDB.class.php';
             ?>
         </div>
     </div>
-
     <!-- Index advertisement -->
     <div style="width:100%;height:300px">
-        <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
-    </div> <br>
+        <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
+    </div>
+    <a id='myorder'>
+    </a>
+    <p>
+        1 <br><br><br><br><br>
+        1 <br><br><br><br><br>
+        1 <br><br><br><br><br><br>
+        1 <br><br><br><br><br><br>
+        1 <br><br><br><br><br><br><br><br>
+        1 <br><br><br><br><br><br><br><br></p>
+        <a id='mygroup'>
+        </a>
+        <p>
 
-    <!-- Other things -->
-    <?php
-    // echo $_SESSION['login_user'];
-    ?>
+            222 <br>
+            1222 <br>
+            221 <br>
+            22    1 <br>
+            22    1 <br>
+            222  <br></p>
+            <!-- Other things -->
+            <?php
+            // echo $_SESSION['login_user'];
+            ?>
 
-</body>
+        </body>
 
 
-</html>
+        </html>

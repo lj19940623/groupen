@@ -12,3 +12,12 @@ TODO LIST:
 3. 加了name到product表
 4. 增添了许多新的function到SQLDB里
 5. 修改了网页和SQLDB之间的关系， 现在是完全连上了
+
+6.20
+果改了数据库，把rm也改一下！！
+login- finish
+logout- finish
+signup- finish
+index- fix a bit
+add account page, will include my orders and my groups by # id location
+add message  

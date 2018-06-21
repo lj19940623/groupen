@@ -12,9 +12,7 @@ CREATE TABLE user
     admin BIT DEFAULT 0,
     PRIMARY KEY (uid)
 );
-INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`, `admin`) VALUES ("jian","123","jian.li1@uclagary.ca","address1",100, 1);
-INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`, `admin`) VALUES ("1","1","1@1","address2",1000,0);
-INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`, `admin`) VALUES ("2","2","2@2","address3",1000,1);
+INSERT INTO `user`(`uid`, `psw`, `email`, `address`, `balance`, `admin`) VALUES ("jian","123","jian.li1@uclagary.ca","address1",0,1);
 
 CREATE TABLE product
 (
@@ -31,7 +29,8 @@ CREATE TABLE product
     PRIMARY KEY (pid),
     FOREIGN KEY (user_uid) REFERENCES user (uid)
 );
-
+INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+VALUES ('jian','testproduct1',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 CREATE TABLE groups
 (
     gid int NOT NULL AUTO_INCREMENT,

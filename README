@@ -3,10 +3,12 @@ Project
 db design: see proposal, er diagram, rm diagram
 website:
     structure:
-        indel- need fill
-            register- finish
+        index- need fill
+            login- finish
             logout- finish
+            signup- finish
             listProduct-
             order-
             group-
             circle-
+            account-
