@@ -104,7 +104,7 @@ public function addProducts($number){
  <body>
    <div> <form action = "fillSQL.php" method = "post">
        <label>How many number of product:  </label> <input type = "text" name = "number" required /><br>
-       <input type = "submit" value = " gernerate "/>
+       <input type = "submit" value = " generate "/>
    </div>
    <?php
    if($_SERVER["REQUEST_METHOD"] == "POST") {
