@@ -13,6 +13,7 @@ require 'SQLDB.class.php';
     <?php include 'Resources/CSS/topnav.css'; ?>
     <?php include 'Resources/CSS/topnavRight.css';?>
     <?php include 'Resources/CSS/general.css';?>
+    <?php include 'Resources/CSS/login.css';?>
     </style>
 </head>
 <body>
@@ -59,7 +60,6 @@ require 'SQLDB.class.php';
 
     <!-- Other things -->
     
-
 </body>
 
 
