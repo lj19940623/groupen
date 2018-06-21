@@ -42,7 +42,7 @@ public function addProducts($number){
     $files = scandir($dir);
   }
   // inserting each file
-  for($i=1; $i<$number; $i++){
+  for($i=0; $i<$number; $i++){
     $categories = array('Electronics', 'Home Improvement', 'Clothing & Shoes', 'Sport & Outdoors', 'Video Games', 'Kitchen & Dining');
     $userID = 1;
     $name = "product".$i;
