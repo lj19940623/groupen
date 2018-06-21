@@ -26,7 +26,7 @@ require 'SQLDB.class.php';
             <?php
             if(isset($_SESSION['login_user'])){
                 echo "<a href=\"logout.php\">Log out</a>
-                <a >Welcome back, ".$_SESSION['login_user']."</a>
+                <a href=\"account.php\">Welcome back, ".$_SESSION['login_user']."</a>
                 <a href=\"message.php\">Message</a>
                 <a href=\"account.php#myorder\">My orders</a>
                 <a href=\"account.php#mygroup\">My groups</a>

@@ -11,8 +11,13 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         $productDiv = $_GET["productDiv"]-1;
     }
 }
-if(isset($_GET["makeNewGroup"])){
-  if(isset($_GET["makeNewGroup"])){
+if(isset($_GET["makeGroupWithPid"])){
+  if(!isset($_SESSION["login_user"])){
+       header('Location: login.php');
+       return;
+  }else{
+      $_GET["makeGroupWithPid"];
+  }
 }
 
 $link = groupenDB::getInstance();
@@ -39,7 +44,7 @@ $link = groupenDB::getInstance();
             <?php
             if(isset($_SESSION['login_user'])){
                 echo "<a href=\"logout.php\">Log out</a>
-                <a >Welcome back, ".$_SESSION['login_user']."</a>
+                <a href=\"account.php\">Welcome back, ".$_SESSION['login_user']."</a>
                 <a href=\"message.php\">Message</a>
                 <a href=\"account.php#myorder\">My orders</a>
                 <a href=\"account.php#mygroup\">My groups</a>
@@ -64,8 +69,11 @@ $link = groupenDB::getInstance();
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
     while($r = mysqli_fetch_assoc($productList)) {
-        echo "pid:" . $r["pid"] . "  " . $r["name"] . "  " . $r["description"] . "  " . $r["price"] . "  ";
-        echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
+        echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
+        echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] . "  Price:" . $r["price"] ."$<br>";
+        echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
+        echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
+        echo " member discount: " . $r["discount"]*100 . "% ~~";
         echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
     }
     ?>
