@@ -23,38 +23,41 @@ CREATE TABLE product
     name varchar(40) NOT NULL,
     price float NOT NULL,
     description varchar(100) NOT NULL,
-    tag varchar(10),
-    category varchar(10),
-    photo_url varchar(30),
+    tag varchar(20),
+    category varchar(50),
+    photo_url varchar(100),
     start_time datetime NOT NULL,
     end_time datetime NOT NULL,
+    grouping_size int DEFAULT 3,
+    first_discount float DEFAULT 0.2,
+    discount float DEFAULT 0.1,
     PRIMARY KEY (pid),
     FOREIGN KEY (user_uid) REFERENCES user (uid)
 );
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct1',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct2',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct3',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct4',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct5',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct6',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct7',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct8',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct9',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct10',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct11',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct12',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct1',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct2',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct3',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct4',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct5',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct6',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct7',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct8',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct9',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct10',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct11',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
+-- INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
+-- VALUES ('jian','testproduct12',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 CREATE TABLE groups
 (
     gid int NOT NULL AUTO_INCREMENT,
