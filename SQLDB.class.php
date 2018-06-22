@@ -159,6 +159,30 @@ class groupenDB{
         $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', " .$u_uid. ")";
         return $result = mysqli_query($this->database, $sql);
     }
+    public function getGroupListStartBy($numPerDiv, $offset, $u_uid){
+        $sql = "SELECT * FROM groups WHERE starter_uid = '" . $u_uid . "'";
+        $sql .= "ORDER BY gid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function countGroupStartBy($u_uid){
+        $sql = "SELECT COUNT(gid) FROM groups ";
+        $sql .= "WHERE starter_uid = '" . $u_uid . "'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
+    }
+    public function getGroupListJoinedBy($numPerDiv, $offset, $u_uid){
+        $sql = "SELECT * FROM groupmember WHERE user_uid = '" . $u_uid . "'";
+        $sql .= "ORDER BY groups_gid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function countGroupJoinedBy($u_uid){
+        $sql = "SELECT COUNT(groups_gid) FROM groupmember ";
+        $sql .= "WHERE user_uid = '" . $u_uid . "'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
+    }
     //===================================================================
     // Orders part
 
