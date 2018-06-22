@@ -41,7 +41,6 @@ public function addProducts($number){
   if (is_dir($dir)){
     $files = scandir($dir);
   }
-  echo $files[rand(2,11)];
   // inserting each file
   for($i=0; $i<$number; $i++){
     $categories = array('Electronics', 'Home Improvement', 'Clothing & Shoes', 'Sport & Outdoors', 'Video Games', 'Kitchen & Dining');
@@ -54,6 +53,9 @@ public function addProducts($number){
     $photo_url = $files[rand(2,11)];
     $start_time = date('Y-m-d');
     $end_time = $start_time;
+    $grouping_size = rand(3,100);
+    $first_discout = rand(3,6)/10;
+    $discout = rand(1, $first_discout-0.5)/10;
 
     $myUserID = mysqli_real_escape_string($this->database, $userID);
     $myName = mysqli_real_escape_string($this->database, $name);
@@ -64,6 +66,9 @@ public function addProducts($number){
     $myPhto_url = mysqli_real_escape_string($this->database, $photo_url);
     $myStart_time = mysqli_real_escape_string($this->database, $start_time);
     $myEnd_time = mysqli_real_escape_string($this->database, $end_time);
+    $myGrouping_size = mysqli_real_escape_string($this->database, $grouping_size);
+    $myFirst_discount = mysqli_real_escape_string($this->database, $first_discout);
+    $myDiscout = mysqli_real_escape_string($this->database, $discout);
 
     $sql = "INSERT INTO product (
       user_uid,
@@ -74,7 +79,10 @@ public function addProducts($number){
       category,
       photo_url,
       start_time,
-      end_time)
+      end_time,
+      grouping_size,
+      first_discount,
+      discount)
     VALUES ('".$userID."',
             '".$myName."',
             '".$myPrice."',
@@ -83,7 +91,10 @@ public function addProducts($number){
             '".$myCategory."',
             '".$myPhto_url."',
             '".$myStart_time."',
-            '".$myEnd_time."')";
+            '".$myEnd_time."',
+            '".$myGrouping_size."',
+            '".$myFirst_discount."',
+            '".$myDiscout."')";
 
   if(!mysqli_query($this->database, $sql)){
     echo "sql error: ".mysqli_error($this->database)."<br>";

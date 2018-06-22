@@ -85,11 +85,12 @@ class groupenDB{
     //     $result = mysqli_query($this->database,$sql);
     //     return $result;
     // }
-    // public function searchByPid($pid){
-    //     $sql = "SELECT * FROM product WHERE pid=".$pid."";
-    //     $result = mysqli_query($this->database,$sql);
-    //     return $result;
-    // }
+    public function searchByPid($pid){
+        $sql = "SELECT * FROM product WHERE pid=".$pid."";
+        $result = mysqli_query($this->database,$sql);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        return $row;
+    }
     public function getProductGroupingSizeByPid($pid){
         $sql = "SELECT grouping_size FROM product WHERE pid=".$pid."";
         $result = mysqli_query($this->database,$sql);

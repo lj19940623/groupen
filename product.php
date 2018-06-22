@@ -76,22 +76,39 @@ $link = groupenDB::getInstance();
 
         echo "<div class=\"icon\">";
         echo $detailLink." <img src= \"Resources/ProductImage/".$row["photo_url"]."\"></a><br>" ;
+        echo $detailLink.$row["name"]."</a><br>$".$row["price"]."<br>";
+        echo "1st discout: ".$row["first_discount"]*100 ."%<br>";
+        echo "member discout: ".$row["discount"]*100 ."%<br>";
         // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
         // echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
         // echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
         // echo " member discount: " . $r["discount"]*100 . "%~";
         // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
-
-        echo $detailLink.$row["name"]."</a><br>$".$row["price"];
         echo "</div>";
     }
     ?>
 
     <br>
+    <br>
+    <div class="icon">
+    <?php
+      $page = isset($_GET["productDiv"])?$_GET["productDiv"]-1:1;
+      $page = ($page>0)?$page:1;
+      echo "<a href=\"product.php?productDiv={$page}\">Last page</a>";
+    ?>
+    </div>
+    <div class="icon">
     <form action="product.php" method="get">
           <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
           <input type="submit" value="Go">
     </form>
+    </div>
+    <div class="icon">
+    <?php
+      $page = isset($_GET["productDiv"])?$_GET["productDiv"]+1:2;
+      echo "<a href=\"product.php?productDiv={$page}\">Next page</a>";
+    ?>
+  </div>
     </div>
 
 

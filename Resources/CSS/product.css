@@ -7,3 +7,24 @@
   width: 100%;
   text-align: center;
 }
+
+.productDetail{
+  width: 100%;
+  text-align: center;
+}
+.productDetailDisplay{
+  display: inline-block;
+}
+
+
+.productDetailLeft{
+  width: 40%;
+  height: 500px;
+  float: left;
+}
+
+.productDetailRight{
+  width: 50%;
+  height: 500px;
+  float: right;
+}
