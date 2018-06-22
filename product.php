@@ -71,16 +71,18 @@ $link = groupenDB::getInstance();
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
 
-    while($r = mysqli_fetch_assoc($productList)) {
+    while($row = mysqli_fetch_assoc($productList)) {
+        $detailLink = "<a href=\"productDetail.php?ProductID={$row["pid"]}\">";
+
         echo "<div class=\"icon\">";
-        echo " <img src= \"Resources/ProductImage/".$r["photo_url"]."\"><br>" ;
+        echo $detailLink." <img src= \"Resources/ProductImage/".$row["photo_url"]."\"></a><br>" ;
         // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
         // echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
         // echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
         // echo " member discount: " . $r["discount"]*100 . "%~";
         // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
 
-        echo $r["name"]."<br>$".$r["price"];
+        echo $detailLink.$row["name"]."</a><br>$".$row["price"];
         echo "</div>";
     }
     ?>
