@@ -11,7 +11,7 @@
       </div>
       <div class="container">
         <label style="float:left">Username: </label> <input type = "text" name = "username" required />
-        <label style="float:left">Password: </label> <input type = "text" name = "password" required />
+        <label style="float:left">Password: </label> <input type = "password" name = "password" required />
         <label style="float:left">Email: </label> <input type = "text" name = "email" required />
 
 

@@ -41,6 +41,7 @@ public function addProducts($number){
   if (is_dir($dir)){
     $files = scandir($dir);
   }
+  echo $files[rand(2,11)];
   // inserting each file
   for($i=0; $i<$number; $i++){
     $categories = array('Electronics', 'Home Improvement', 'Clothing & Shoes', 'Sport & Outdoors', 'Video Games', 'Kitchen & Dining');
@@ -50,7 +51,7 @@ public function addProducts($number){
     $description = "None";
     $tag = "tag".rand(0,6);
     $category = $categories[rand(0,5)];
-    $photo_url = "Resources/ProductImage/".$files[rand(2,11)];
+    $photo_url = $files[rand(2,11)];
     $start_time = date('Y-m-d');
     $end_time = $start_time;
 

@@ -30,6 +30,7 @@ $link = groupenDB::getInstance();
     <?php include 'Resources/CSS/topnav.css'; ?>
     <?php include 'Resources/CSS/topnavRight.css';?>
     <?php include 'Resources/CSS/general.css';?>
+    <?php include 'Resources/CSS/product.css';?>
     </style>
 </head>
 <body>
@@ -63,25 +64,35 @@ $link = groupenDB::getInstance();
     </div> <br>
 
     <!-- Other things -->
+    <div class="productList">
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
     $productList = $link -> listSomeProduct($numPerDiv,($numPerDiv*$productDiv));
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
+
     while($r = mysqli_fetch_assoc($productList)) {
-        echo " <img src='" . $r["photo_url"] . "' width='30%' height='30%' > <br>";
-        echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
-        echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
-        echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
-        echo " member discount: " . $r["discount"]*100 . "%~";
-        echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
+        echo "<div class=\"icon\">";
+        echo " <img src= \"Resources/ProductImage/".$r["photo_url"]."\"><br>" ;
+        // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
+        // echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
+        // echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
+        // echo " member discount: " . $r["discount"]*100 . "%~";
+        // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
+
+        echo $r["name"]."<br>$".$r["price"];
+        echo "</div>";
     }
     ?>
+
     <br>
     <form action="product.php" method="get">
           <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
           <input type="submit" value="Go">
     </form>
+    </div>
+
+
 
 </body>
 
