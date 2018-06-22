@@ -157,8 +157,19 @@ class groupenDB{
         return ($productRow["grouping_size"]-$this->getGroupCurrentSizeByGid($g_gid));
     }
     public function joinGroup($u_uid, $g_gid){
-        $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', '" .$u_uid. "')";
-        return $result = mysqli_query($this->database, $sql);
+        // if just 1 seet available, then let all member and this user have new order and delete group, also the group owner
+        // else just insert
+        if($this->getRestSpaceInGroup($g_gid)==1){
+            $sql = "";
+            return $result = mysqli_query($this->database, $sql);
+            
+            while(){
+
+            }
+        }else{
+            $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', '" .$u_uid. "')";
+            return $result = mysqli_query($this->database, $sql);
+        }
     }
     public function checkIfIsGroupStarter($u_uid, $g_gid){
       $sql = "SELECT COUNT(starter_uid) FROM groups WHERE gid = '".$g_gid."' AND starter_uid = '". $u_uid ."'";

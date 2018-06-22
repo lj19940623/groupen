@@ -8,7 +8,7 @@
   <div align="center">
     <form action="login.php" method="post" style="width:40%">
       <div class="imgContainer">
-        <img src="Resources/logo.png">
+        <a href="index.php"><img src="Resources/logo.png"></a>
       </div>
       <div class="container">
         <label style="float:left">Username: </label> <input type = "text" name = "username" required />
