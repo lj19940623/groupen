@@ -218,6 +218,31 @@ class groupenDB{
     // Orders part
 
 
+    //===================================================================
+    //===================================================================
+    //IOS part
+    public function testIOS($userAccount, $userPassword, $userEmail){
+      $myUsername = mysqli_real_escape_string($this->database, $userAccount);
+      $myPassword = mysqli_real_escape_string($this->database, $userPassword);
+      $myEmail = mysqli_real_escape_string($this->database, $userEmail);
+
+      // check registered
+      $sql = "SELECT uid FROM user WHERE uid = '$myUsername'";
+      $result = mysqli_query($this->database,$sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      $count = mysqli_num_rows($result);
+      if($count > 0 ) {
+          return false;
+      }
+
+      // insert with checking valid
+      $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myUsername. "', '" .$myPassword. "', '" .$myEmail. "')";
+      if(mysqli_query($this->database, $sql)){
+          return true;
+      }
+
+      return false;
+    }
 
 
 }
