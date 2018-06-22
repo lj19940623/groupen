@@ -65,7 +65,7 @@ $link = groupenDB::getInstance();
     <!-- Other things -->
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $productList = $link -> listSome($numPerDiv,($numPerDiv*$productDiv));
+    $productList = $link -> listSomeProduct($numPerDiv,($numPerDiv*$productDiv));
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
     while($r = mysqli_fetch_assoc($productList)) {
@@ -79,7 +79,7 @@ $link = groupenDB::getInstance();
     ?>
     <br>
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
+          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
           <input type="submit" value="Go">
     </form>
 

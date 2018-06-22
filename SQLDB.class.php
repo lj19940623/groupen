@@ -105,7 +105,7 @@ class groupenDB{
 
     // function for listing Products
     // public function listing($searchType, $param, $order){
-    public function listSome($numPerDiv, $offset){
+    public function listSomeProduct($numPerDiv, $offset){
         $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
         return $result;
@@ -128,9 +128,10 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
-
-    public function countGroup(){
-        $sql = "SELECT COUNT(gid) FROM groups";
+    // count group for product, -1 for all
+    public function countGroup($p_pid = -1){
+        $sql = "SELECT COUNT(gid) FROM groups ";
+        if($p_pid!=-1) $sql .= "WHERE product_pid = '" . $p_pid . "'";
         $result = mysqli_query($this->database, $sql);
         return mysqli_fetch_array($result)[0];
     }
@@ -138,6 +139,25 @@ class groupenDB{
     public function makeNewGroup($u_uid,$p_pid) {
         $sql = "INSERT INTO groups (starter_uid, product_pid) VALUES ('" .$u_uid. "', " .$p_pid. ")";
         $result = mysqli_query($this->database, $sql);
+    }
+
+    public function getGroupCurrentSizeByGid($g_gid) {
+        $sql = "SELECT COUNT(user_uid) FROM groupmember WHERE groups_gid = ".$g_gid;
+        $result = mysqli_query($this->database, $sql);
+        return 1 + mysqli_fetch_array($result)[0];
+    }
+    public function getRestSpaceInGroup($g_gid){
+        $sql = "SELECT product_pid FROM groups WHERE gid = ".$g_gid;
+        $result = mysqli_query($this->database, $sql);
+        $groupRow = mysqli_fetch_assoc($result);
+        $sql = "SELECT grouping_size FROM product WHERE pid = ".$groupRow["product_pid"];
+        $result = mysqli_query($this->database, $sql);
+        $productRow = mysqli_fetch_assoc($result);
+        return ($productRow["grouping_size"]-$this->getGroupCurrentSizeByGid($g_gid));
+    }
+    public function joinGroup($u_uid, $g_gid){
+        $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', " .$u_uid. ")";
+        return $result = mysqli_query($this->database, $sql);
     }
     //===================================================================
     // Orders part

@@ -7,7 +7,7 @@ $groupDiv = 0;
 $numPerDiv = 5;
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     if(isset($_GET["groupDiv"])){
-        $productDiv = $_GET["groupDiv"]-1;
+        $groupDiv = $_GET["groupDiv"]-1;
     }
 }
 
@@ -58,22 +58,20 @@ $link = groupenDB::getInstance();
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
     $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv),(isset($_GET["pid"])?$_GET["pid"]:-1));
-    $numOfGroup = $link -> countGroup();
-    echo "<br> we have ". $numOfGroup . " Groups for groupen in total <br><br>";
+    $numOfGroup = $link -> countGroup(isset($_GET["pid"])?$_GET["pid"]:-1);
+    echo "<br> Groupen has ". $numOfGroup . " groups ".((!isset($_GET["pid"])||$_GET["pid"]==-1)?"in total":("for product with pid ".$_GET["pid"]))." <br><br>";
     while($r = mysqli_fetch_assoc($groupList)) {
-        echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started By:" . $r["starter_uid"];
-        echo "Product groupen size";
-        echo "  Price:" . "$<br>";
-        // echo "1st discount: " . $r["first_discount"]*100 . "% ~~";
-        // echo "<a href=\"product.php?makeNewGroup=".$r["pid"]."\">Groupen it!</a> ";
-        // echo " member discount: " . $r["discount"]*100 . "% ~~";
-        // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
+        echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started by:" . $r["starter_uid"]. " ";
+        $groupenSize = $link->getProductGroupingSizeByPid($r["product_pid"]);
+        echo "Required groupen size ".$groupenSize . " await " .($groupenSize-$link->getGroupCurrentSizeByGid($r["gid"]));
+        echo "<a href=\"account.php?joinGroupWithGid=".$r["gid"]."\">Join!</a> <br>";
     }
     ?>
     <br>
-    <form action="product.php" method="get">
-          <input type="number" name="productDiv" min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
-          <input type="submit" value="Go">
+    <form action="group.php" method="get">
+        <input type="hidden" name="pid" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '-1' ?>">
+        <input type="number" name="groupDiv" value = <?php echo isset($_GET["groupDiv"])?$_GET["groupDiv"]+1:2 ?> min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
+        <input type="submit" value="Go">
     </form>
 
 </body>

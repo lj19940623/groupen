@@ -6,11 +6,25 @@ require 'SQLDB.class.php';
 if(!isset($_SESSION["login_user"])) header("Location: login.php");
 
 $link = groupenDB::getInstance();
+
 if(isset($_GET["makeGroupWithPid"])){
     if($link->validateProductByPid($_GET["makeGroupWithPid"])){
         $link->makeNewGroup($_SESSION["login_user"],$_GET["makeGroupWithPid"]);
+        header("Location: account.php#mygroup");
     }else{
         header("Location: productNotAvailable.php");
+    }
+}
+if(isset($_GET["joinGroupWithGid"])){
+    if( $link->getRestSpaceInGroup($_GET["joinGroupWithGid"]) <= 0){
+        header("Location: groupAlreadyFull.php");
+    }else{
+        if(!$link->joinGroup($_SESSION["login_user"], $_GET["joinGroupWithGid"])){
+            header("Location: youCanOnlyjoinOnce.php");
+        }else{
+            // header("Location: joined.php");
+            header("Location: account.php#mygroup");
+        }
     }
 }
 
@@ -49,35 +63,29 @@ if(isset($_GET["makeGroupWithPid"])){
             ?>
         </div>
     </div>
-    <!-- Index advertisement -->
-    <!-- <div style="width:100%;height:300px">
-        <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
-    </div> -->
     <a id='myorder'>
     </a>
     <p>
-        1 <br><br><br><br><br>
-        1 <br><br><br><br><br>
-        1 <br><br><br><br><br><br>
-        1 <br><br><br><br><br><br>
-        1 <br><br><br><br><br><br><br><br>
-        1 <br><br><br><br><br><br><br><br></p>
-        <a id='mygroup'>
-        </a>
-        <p>
+        1 <br>
+        1 <br>
+        1 <br>
+        1 <br>
+        1 <br>
+        9 <br><?php // TODO:  ?>
+    </p>
+    <a id='mygroup'>
+    </a>
+    <p>
+        <?php
+            echo "next to do";
+         ?>
+    </p>
 
-            222 <br>
-            1222 <br>
-            221 <br>
-            22    1 <br>
-            22    1 <br>
-            222  <br></p>
-            <!-- Other things -->
-            <?php
-            // echo $_SESSION['login_user'];
-            ?>
-
-        </body>
+            <!-- Index advertisement -->
+            <div style="width:100%;height:300px">
+            <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
+            </div>
+    </body>
 
 
-        </html>
+    </html>
