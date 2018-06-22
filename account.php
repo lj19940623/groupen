@@ -8,7 +8,7 @@ if(!isset($_SESSION["login_user"])) header("Location: login.php");
 
 $startedGroupDiv = 0;
 $joinedGroupDiv = 0;
-$numPerDiv1 = 2;
+$numPerDiv1 = 5;
 $numPerDiv2 = 3;
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     if(isset($_GET["startedGroupDiv"])){
@@ -33,12 +33,27 @@ if(isset($_GET["joinGroupWithGid"])){
     if( $link->getRestSpaceInGroup($_GET["joinGroupWithGid"]) <= 0){
         header("Location: groupAlreadyFull.php");
     }else{
-        if(!$link->joinGroup($_SESSION["login_user"], $_GET["joinGroupWithGid"])){
-            header("Location: youCanOnlyjoinOnce.php");
+        if($link->checkIfIsGroupStarter($_SESSION["login_user"],$_GET["joinGroupWithGid"])) {
+            header("Location: youCanNotJoinYourOwnGroup.php");
+        }else if(!$link->joinGroup($_SESSION["login_user"],$_GET["joinGroupWithGid"])){
+            header("Location: youCanNotJoinSameGroupAsMemberTwice.php");
         }else{
-            // header("Location: joined.php"); // test
-            header("Location: account.php#mygroup");
+            header("Location: successfullyJoinPage.php");
+            // header("Location: account.php#mygroup");
         }
+    }
+}
+if(isset($_GET["quitGroupWithGid"])){
+    if($link->checkIfIsGroupStarter($_SESSION["login_user"],$_GET["quitGroupWithGid"])){
+        // header("Location: quitYourOwnGroup.php");
+        $link->quitGroupAsStarter($_SESSION["login_user"],$_GET["quitGroupWithGid"]);
+        header("Location: account.php#mygroup");
+    }else if($link->checkIfIsGroupMember($_SESSION["login_user"],$_GET["quitGroupWithGid"])){
+        // header("Location: quitGroupAsMember.php");
+        $link->quitGroupAsMember($_SESSION["login_user"],$_GET["quitGroupWithGid"]);
+        header("Location: account.php#mygroup");
+    }else{
+        header("Location: notInGroup.php");
     }
 }
 
@@ -91,46 +106,47 @@ if(isset($_GET["joinGroupWithGid"])){
     </a>
     <p>
         <?php
-            echo "<br>You have started following groups: ";
-            $startedGroupListSize = $link->countGroupStartBy($_SESSION["login_user"]);
-            echo "total " . $startedGroupListSize ."<br>";
-            $startedGroupList = $link -> getGroupListStartBy($numPerDiv1, ($numPerDiv1*$startedGroupDiv), $_SESSION["login_user"]);
-            while ($r = mysqli_fetch_assoc($startedGroupList)) {
-                echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started by:" . $r["starter_uid"]. " ";
-                $groupenSize = $link->getProductGroupingSizeByPid($r["product_pid"]);
-                echo "Required groupen size ".$groupenSize . " await " .($groupenSize-$link->getGroupCurrentSizeByGid($r["gid"]));
-                echo "<a href=\"account.php?joinGroupWithGid=".$r["gid"]."\">Join!</a> <br>";
-                echo "<br>";
-            }
+        echo "<br>You have started following groups: ";
+        $startedGroupListSize = $link->countGroupStartBy($_SESSION["login_user"]);
+        echo "total " . $startedGroupListSize ."<br>";
+        $startedGroupList = $link -> getGroupListStartBy($numPerDiv1, ($numPerDiv1*$startedGroupDiv), $_SESSION["login_user"]);
+        while ($r = mysqli_fetch_assoc($startedGroupList)) {
+            echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started by:" . $r["starter_uid"]. " ";
+            $groupenSize = $link->getProductGroupingSizeByPid($r["product_pid"]);
+            echo "Required groupen size ".$groupenSize . " await " .($groupenSize-$link->getGroupCurrentSizeByGid($r["gid"]));
+            echo "<a href=\"account.php?quitGroupWithGid=".$r["gid"] ."\">QuitYourSuperDiscount</a><br> ";
+            echo "<br>";
+        }
         ?>
         <form action="account.php" method="get">
-            <input type="number" name="$startedGroupDiv" value = <?php echo isset($_GET["startedGroupDiv"])?$_GET["startedGroupDiv"]+1:2 ?> min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
-            <input type="hidden" name="$joinedGroupDiv" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '-1' ?>">
+            <input type="number" name="startedGroupDiv" value = <?php echo isset($_GET["startedGroupDiv"])?$_GET["startedGroupDiv"]+1:2 ?> min="1" max="<?php echo (($startedGroupListSize-1)/$numPerDiv1+1) ?>">
+            <input type="hidden" name="joinedGroupDiv" value="<?php echo isset($_GET['joinedGroupDiv']) ? $_GET['joinedGroupDiv'] : '1' ?>">
             <input type="submit" value="Go">
         </form>
         <?php
-            echo "<br>You have joined following groups: ";
-            $joinedGroupListSize = $link->countGroupJoinedBy($_SESSION["login_user"]);
-            echo "total " . $joinedGroupListSize ."<br>";
-            $joinedGroupList = $link -> getGroupListJoinedBy($numPerDiv2, ($numPerDiv2*$joinedGroupDiv), $_SESSION["login_user"]);
-            while ($r = mysqli_fetch_assoc($joinedGroupList)) {
-                echo "Group id:" . $r["groups_gid"];
-                echo "<br>";
-            }
-            echo "next to do";
-         ?>
-         <form action="account.php" method="get">
-             <input type="number" name="$startedGroupDiv" value = <?php echo isset($_GET["groupDiv"])?$_GET["groupDiv"]+1:2 ?> min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
-             <input type="hidden" name="$joinedGroupDiv" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '-1' ?>">
-             <input type="submit" value="Go">
-         </form>
+        echo "<br>You have joined following groups: ";
+        $joinedGroupListSize = $link->countGroupJoinedBy($_SESSION["login_user"]);
+        echo "total " . $joinedGroupListSize ."<br>";
+        $joinedGroupList = $link -> getGroupListJoinedBy($numPerDiv2, ($numPerDiv2*$joinedGroupDiv), $_SESSION["login_user"]);
+        while ($r = mysqli_fetch_assoc($joinedGroupList)) {
+            echo "Group id:" . $r["groups_gid"];
+            echo "<a href=\"account.php?quitGroupWithGid=".$r["groups_gid"] ."\">QuitGroup</a><br> ";
+            echo "<br>";
+        }
+        echo "next to do";
+        ?>
+        <form action="account.php" method="get">
+            <input type="hidden" name="startedGroupDiv" value="<?php echo isset($_GET['startedGroupDiv']) ? $_GET['startedGroupDiv'] : '1' ?>">
+            <input type="number" name="joinedGroupDiv" value = <?php echo isset($_GET["joinedGroupDiv"])?$_GET["joinedGroupDiv"]+1:2 ?> min="1" max="<?php echo (($joinedGroupListSize-1)/$numPerDiv2+1) ?>">
+            <input type="submit" value="Go">
+        </form>
     </p>
 
-            <!-- Index advertisement -->
-            <div style="width:100%;height:300px">
-            <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
-            </div>
-    </body>
+    <!-- Index advertisement -->
+    <div style="width:100%;height:300px">
+        <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
+    </div>
+</body>
 
 
-    </html>
+</html>

@@ -42,7 +42,7 @@ class groupenDB{
     public function login($userAccount, $userPassword){
         $myusername = mysqli_real_escape_string($this->database, $userAccount);
         $mypassword = mysqli_real_escape_string($this->database, $userPassword);
-        $sql = "SELECT uid FROM user WHERE uid = '$myusername' and psw = '$mypassword'";
+        $sql = "SELECT uid FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
         $result = mysqli_query($this->database,$sql);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $count = mysqli_num_rows($result);
@@ -52,6 +52,7 @@ class groupenDB{
     }
 
     // function for registration
+    // will return result info string
     public function register($userAccount, $userPassword, $userEmail){
         $myUsername = mysqli_real_escape_string($this->database, $userAccount);
         $myPassword = mysqli_real_escape_string($this->database, $userPassword);
@@ -65,14 +66,13 @@ class groupenDB{
         if($count > 0 ) {
             return "Username is registered.";
         }
-
         // insert with checking valid
         $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myUsername. "', '" .$myPassword. "', '" .$myEmail. "')";
         if(mysqli_query($this->database, $sql)){
             $_SESSION['login_user'] = $userAccount;
+            return "Sign up successful";
         }
-
-        return "Unknown error";
+        return "Unknown error, please let admin known";
     }
 
     //===================================================================
@@ -157,8 +157,18 @@ class groupenDB{
         return ($productRow["grouping_size"]-$this->getGroupCurrentSizeByGid($g_gid));
     }
     public function joinGroup($u_uid, $g_gid){
-        $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', " .$u_uid. ")";
+        $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', '" .$u_uid. "')";
         return $result = mysqli_query($this->database, $sql);
+    }
+    public function checkIfIsGroupStarter($u_uid, $g_gid){
+      $sql = "SELECT COUNT(starter_uid) FROM groups WHERE gid = '".$g_gid."' AND starter_uid = '". $u_uid ."'";
+      $result = mysqli_query($this->database, $sql);
+      return (mysqli_fetch_array($result)[0]==1);
+    }
+    public function checkIfIsGroupMember($u_uid, $g_gid){
+      $sql = "SELECT COUNT(groups_gid) FROM groupmember WHERE groups_gid = '".$g_gid."' AND user_uid = '" .$u_uid. "'";
+      $result = mysqli_query($this->database, $sql);
+      return (mysqli_fetch_array($result)[0]==1);
     }
     public function getGroupListStartBy($numPerDiv, $offset, $u_uid){
         $sql = "SELECT * FROM groups WHERE starter_uid = '" . $u_uid . "'";
@@ -183,6 +193,26 @@ class groupenDB{
         $sql .= "WHERE user_uid = '" . $u_uid . "'";
         $result = mysqli_query($this->database, $sql);
         return mysqli_fetch_array($result)[0];
+    }
+    public function quitGroupAsStarter($u_uid, $g_gid){
+        // fetch one member from groupmember
+        // if have delete it and update it as starter in group
+        // else delete directly in group
+        $sql = "SELECT * FROM groupmember WHERE groups_gid = ' ".$g_gid."'";
+        $result = mysqli_query($this->database, $sql);
+        if($row=mysqli_fetch_assoc($result)){
+            $newStarer_uid = $row["user_uid"];
+            $this->quitGroupAsMember($newStarer_uid, $g_gid);
+            $sql = "UPDATE groups SET starter_uid ='".$newStarer_uid."' WHERE gid = '".$g_gid."'";
+            $result = mysqli_query($this->database, $sql);
+        }else{
+            $sql = "DELETE FROM groups WHERE gid = '".$g_gid."'";
+            $result = mysqli_query($this->database, $sql);
+        }
+    }
+    public function quitGroupAsMember($u_uid, $g_gid){
+        $sql = "DELETE FROM groupmember WHERE user_uid = '" . $u_uid . "' AND groups_gid = '".$g_gid."'";
+        $result = mysqli_query($this->database, $sql);
     }
     //===================================================================
     // Orders part

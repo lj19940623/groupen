@@ -7,12 +7,12 @@
   <div align="center">
     <form action="signup.php" method="post" style="width:40%">
       <div class="imgContainer">
-        <img src="Resources/logo.png">
+        <a href="index.php"><img src="Resources/logo.png"></a>
       </div>
       <div class="container">
         <label style="float:left">Username: </label> <input type = "text" name = "username" required />
         <label style="float:left">Password: </label> <input type = "password" name = "password" required />
-        <label style="float:left">Email: </label> <input type = "text" name = "email" required />
+        <label style="float:left">Email: </label> <input type = "email" name = "email" required />
 
 
           <?php
@@ -24,6 +24,7 @@
               $postEmail = $_POST['email'];
               $link = groupenDB::getInstance();
               $result = $link -> register($postUsername, $postPassword, $postEmail);
+              echo $result;
           }
           if(isset($_SESSION["login_user"])){
               header("Location: index.php");

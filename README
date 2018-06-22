@@ -3,12 +3,12 @@ Project
 db design: see proposal, er diagram, rm diagram
 website:
     structure:
-        index- need fill
-            login- finish
-            logout- finish
-            signup- finish
-            listProduct-
-            order-
-            group-
-            circle-
-            account-
+        index- just ads - add ref to img  -  design ads system later - finish
+        login- need reset password  -finish
+        signup- need design a logo - finish
+        logout- finish
+        product-
+        order-
+        group-
+        circle-
+        account-

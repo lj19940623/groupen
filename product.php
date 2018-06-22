@@ -5,7 +5,7 @@ current product page
 require 'SQLDB.class.php';
 
 $productDiv = 0;
-$numPerDiv = 5;
+$numPerDiv = 3;
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     if(isset($_GET["productDiv"])){
         $productDiv = $_GET["productDiv"]-1;
@@ -77,13 +77,8 @@ $link = groupenDB::getInstance();
         echo "<div class=\"icon\">";
         echo $detailLink." <img src= \"Resources/ProductImage/".$row["photo_url"]."\"></a><br>" ;
         echo $detailLink.$row["name"]."</a><br>$".$row["price"]."<br>";
-        echo "1st discout: ".$row["first_discount"]*100 ."%<br>";
-        echo "member discout: ".$row["discount"]*100 ."%<br>";
-        // echo "pid:" . $r["pid"] . "  Name:" . $r["name"] . "  Brief:" . $r["description"] ."  Price:" . $r["price"] ."$<br>";
-        // echo " Groupen Size:".$link->getProductGroupingSizeByPid($r["pid"]) . " with 1st discount: " . $r["first_discount"]*100 . "%~";
-        // echo "<a href=\"account.php?makeGroupWithPid=".$r["pid"]."\">Groupen it!</a> ";
-        // echo " member discount: " . $r["discount"]*100 . "%~";
-        // echo "<a href=\"group.php?pid=".$r["pid"]."\">Find Group!</a> <br><br>";
+        echo "1st discount: ".$row["first_discount"]*100 ."%<br>";
+        echo "Join to get ".$row["discount"]*100 ."% off<br>";
         echo "</div>";
     }
     ?>
@@ -94,7 +89,7 @@ $link = groupenDB::getInstance();
     <?php
       $page = isset($_GET["productDiv"])?$_GET["productDiv"]-1:1;
       $page = ($page>0)?$page:1;
-      echo "<a href=\"product.php?productDiv={$page}\">Last page</a>";
+      echo "<a href=\"product.php?productDiv={$page}\">Previous page</a>";
     ?>
     </div>
     <div class="icon">
@@ -106,6 +101,7 @@ $link = groupenDB::getInstance();
     <div class="icon">
     <?php
       $page = isset($_GET["productDiv"])?$_GET["productDiv"]+1:2;
+      $page = min($page, ($numOfProduct-1)/$numPerDiv+1);
       echo "<a href=\"product.php?productDiv={$page}\">Next page</a>";
     ?>
   </div>

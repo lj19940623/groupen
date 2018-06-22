@@ -63,7 +63,7 @@ $link = groupenDB::getInstance();
     while($r = mysqli_fetch_assoc($groupList)) {
         echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started by:" . $r["starter_uid"]. " ";
         $groupenSize = $link->getProductGroupingSizeByPid($r["product_pid"]);
-        echo "Required groupen size ".$groupenSize . " await " .($groupenSize-$link->getGroupCurrentSizeByGid($r["gid"]));
+        echo "Required groupen size:".$groupenSize . " Await:" .($groupenSize-$link->getGroupCurrentSizeByGid($r["gid"]));
         echo "<a href=\"account.php?joinGroupWithGid=".$r["gid"]."\">Join!</a> <br>";
     }
     ?>
