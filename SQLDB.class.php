@@ -124,9 +124,12 @@ class groupenDB{
     }
     // $result = $link -> listProduct($_POST["name"],$_POST["price"],$_POST["description"],$_POST["tag"],$_POST["category"],$_FILES['photo']["name"], $_POST["start_time"], $_POST["end_time"], $_POST["grouping_size"]);
 
-    // public function listProduct($name,$price,$description,$tag,$category,$photo,$start_time,$end_time,$grouping_size){
-    //     $sql =
-    // }
+    public function listProduct($name,$price,$description,$tag,$category,$photo,$start_time,$end_time,$grouping_size,$first_discount,$discount){
+        $sql = "INSERT INTO product(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`, `grouping_size`, `first_discount`, `discount`) ";
+        $sql .= "VALUES ('".$_SESSION["login_user"]."','".$name."','".$price."','".$description."','".$tag."','".$category."','".$photo."','".$start_time."','".$end_time."','".$grouping_size."','".$first_discount."','".$discount."')";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
 
     //===================================================================
     // Group part

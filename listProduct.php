@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if(!move_uploaded_file($_FILES['photo']["tmp_name"], "Resources/ProductImage/".$_FILES['photo']["name"])) header("Location: failToListProduct.php");
   else{
       $link = groupenDB::getInstance();
-      // $result = $link -> listProduct($_POST["name"],$_POST["price"],$_POST["description"],$_POST["tag"],$_POST["category"],$_FILES['photo']["name"], $_POST["start_time"], $_POST["end_time"], $_POST["grouping_size"]);
+      $result = $link -> listProduct($_POST["name"],$_POST["price"],$_POST["description"],$_POST["tag"],$_POST["category"],$_FILES['photo']["name"], $_POST["start_time"], $_POST["end_time"], $_POST["grouping_size"], $_POST["first_discount"],$_POST["discount"]);
       header("Location: account.php#mylist");
   }
 
@@ -72,11 +72,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         Product Image *
         <input type="file" name="photo" id = "photo"  required> <br>
         Start time
-        <input type="datetime-local" name="start_time" value="" required> <br>
+        <input type="datetime-local" name="start_time" value="<?php date_default_timezone_set("America/Denver"); echo date("Y-m-d\TH:i", strtotime("now")); ?>" required> <br>
         End time
-        <input type="datetime-local" name="end_time" value="" required> <br>
+        <input type="datetime-local" name="end_time" value="<?php date_default_timezone_set("America/Denver"); echo date("Y-m-d\TH:i", strtotime("next Friday")); ?>" required> <br>
         Grouping size
         <input type="number" name="grouping_size" value="3" required> <br>
+        First Discount
+        <input type="number" name="first_discount" value="0.2" step="0.01" required> <br>
+        Member Discount
+        <input type="number" name="discout" value="0.1" step="0.01" required> <br>
         <input type="submit" value="Submit"> <br>
     </form>
 
