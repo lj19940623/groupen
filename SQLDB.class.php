@@ -157,15 +157,37 @@ class groupenDB{
         return ($productRow["grouping_size"]-$this->getGroupCurrentSizeByGid($g_gid));
     }
     public function joinGroup($u_uid, $g_gid){
-        // if just 1 seet available, then let all member and this user have new order and delete group, also the group owner
+        // if just 1 seat available, then let all member and this user have new order and delete group, also the group owner
         // else just insert
         if($this->getRestSpaceInGroup($g_gid)==1){
-            $sql = "";
-            return $result = mysqli_query($this->database, $sql);
-            
-            while(){
 
+            $sql = "SELECT * FROM groups WHERE gid = ".$g_gid;
+            $result = mysqli_query($this->database, $sql);
+            $groupRow = mysqli_fetch_assoc($result);
+            $p_pid = $groupRow["product_pid"];
+            $starter_uid = $groupRow["starter_uid"];
+            $sql = "SELECT * FROM product WHERE pid = ".$p_pid;
+            $result = mysqli_query($this->database, $sql);
+            $productRow = mysqli_fetch_assoc($result);
+            $first_discount = $productRow["first_discount"];
+            $discount = $productRow["discount"];
+            // order for 1st guy
+            $sql = "INSERT INTO orders (user_uid,product_pid,discount) VALUES ('".$starter_uid."','".$p_pid."','".$first_discount."')";
+            $result = mysqli_query($this->database, $sql);
+            // order for member also delete
+            $sql = "INSERT INTO orders (user_uid,product_pid,discount) VALUES ('".$u_uid."','".$p_pid."','".$discount."')";
+            $result = mysqli_query($this->database, $sql);
+            $sql = "SELECT * FROM groupmember WHERE groups_gid = ".$g_gid;
+            $result = mysqli_query($this->database, $sql);
+            while($groupmemberRow = mysqli_fetch_assoc($result)){
+                $sql = "INSERT INTO orders (user_uid,product_pid,discount) VALUES ('".$groupmemberRow["user_uid"]."','".$p_pid."','".$discount."')";
+                $result = mysqli_query($this->database, $sql);
+                $sql = "DELETE FROM groupmember WHERE user_uid = '" . $groupmemberRow["user_uid"] . "' AND groups_gid = '".$g_gid."'";
+                $result = mysqli_query($this->database, $sql);
             }
+            //delete starter in group
+            $sql = "DELETE FROM groups WHERE gid = '".$g_gid."'";
+            return $result = mysqli_query($this->database, $sql);
         }else{
             $sql = "INSERT INTO groupmember (groups_gid, user_uid) VALUES ('" .$g_gid. "', '" .$u_uid. "')";
             return $result = mysqli_query($this->database, $sql);
