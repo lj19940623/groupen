@@ -5,10 +5,11 @@ current product page
 require 'SQLDB.class.php';
 if(!isset($_SESSION["login_user"])) header("Location: login.php");
 
-
+$orderDiv = 0;
 $startedGroupDiv = 0;
 $joinedGroupDiv = 0;
-$numPerDiv1 = 5;
+$numPerDiv0 = 4;
+$numPerDiv1 = 3;
 $numPerDiv2 = 3;
 if($_SERVER["REQUEST_METHOD"] == "GET") {
     if(isset($_GET["startedGroupDiv"])){
@@ -16,6 +17,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     }
     if(isset($_GET["joinedGroupDiv"])){
         $joinedGroupDiv = $_GET["joinedGroupDiv"]-1;
+    }
+    if(isset($_GET["orderDiv"])){
+        $orderDiv = $_GET["orderDiv"]-1;
     }
 }
 
@@ -92,16 +96,32 @@ if(isset($_GET["quitGroupWithGid"])){
             ?>
         </div>
     </div>
+
+    <!-- Index advertisement -->
+    <div style="width:100%;height:300px">
+        <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
+    </div>
     <a id='myorder'>
     </a>
     <p>
-        1 <br>
-        1 <br>
-        1 <br>
-        1 <br>
-        1 <br>
-        9 <br><?php // TODO:  ?>
+        <?php
+        echo "<br>Your orders: ";
+        $orderSize = $link->countUserOrder($_SESSION["login_user"]);
+        echo "total " . $orderSize ."<br>";
+        $orderList = $link -> getOrderListByUid($numPerDiv0, ($numPerDiv0*$orderDiv), $_SESSION["login_user"]);
+        while ($r = mysqli_fetch_assoc($orderList)) {
+            echo "Order id:" . $r["oid"] . "  Product id:" . $r["product_pid"] . "  Your discount: " . ($r["discount"]*100). "% off Status: ".$r["status"];
+            echo "<br>";
+        }
+        ?>
+        <form action="account.php" method="get">
+            <input type="number" name="orderDiv" value = <?php echo isset($_GET["orderDiv"])?$_GET["orderDiv"]+1:2 ?> min="1" max="<?php echo (($orderSize-1)/$numPerDiv0+1) ?>">
+            <input type="hidden" name="startedGroupDiv" value = <?php echo isset($_GET['startedGroupDiv']) ? $_GET['startedGroupDiv'] : '1' ?> >
+            <input type="hidden" name="joinedGroupDiv" value = <?php echo isset($_GET['joinedGroupDiv']) ? $_GET['joinedGroupDiv'] : '1' ?> >
+            <input type="submit" value="Go">
+        </form>
     </p>
+
     <a id='mygroup'>
     </a>
     <p>
@@ -119,8 +139,9 @@ if(isset($_GET["quitGroupWithGid"])){
         }
         ?>
         <form action="account.php" method="get">
+            <input type="hidden" name="orderDiv" value = <?php echo isset($_GET["orderDiv"])?$_GET["orderDiv"]:'1' ?>  >
             <input type="number" name="startedGroupDiv" value = <?php echo isset($_GET["startedGroupDiv"])?$_GET["startedGroupDiv"]+1:2 ?> min="1" max="<?php echo (($startedGroupListSize-1)/$numPerDiv1+1) ?>">
-            <input type="hidden" name="joinedGroupDiv" value="<?php echo isset($_GET['joinedGroupDiv']) ? $_GET['joinedGroupDiv'] : '1' ?>">
+            <input type="hidden" name="joinedGroupDiv" value = <?php echo isset($_GET['joinedGroupDiv']) ? $_GET['joinedGroupDiv'] : '1' ?> >
             <input type="submit" value="Go">
         </form>
         <?php
@@ -136,6 +157,7 @@ if(isset($_GET["quitGroupWithGid"])){
         echo "next to do";
         ?>
         <form action="account.php" method="get">
+            <input type="hidden" name="orderDiv" value = <?php echo isset($_GET["orderDiv"])?$_GET["orderDiv"]:1 ?> >
             <input type="hidden" name="startedGroupDiv" value="<?php echo isset($_GET['startedGroupDiv']) ? $_GET['startedGroupDiv'] : '1' ?>">
             <input type="number" name="joinedGroupDiv" value = <?php echo isset($_GET["joinedGroupDiv"])?$_GET["joinedGroupDiv"]+1:2 ?> min="1" max="<?php echo (($joinedGroupListSize-1)/$numPerDiv2+1) ?>">
             <input type="submit" value="Go">
@@ -144,7 +166,7 @@ if(isset($_GET["quitGroupWithGid"])){
 
     <!-- Index advertisement -->
     <div style="width:100%;height:300px">
-        <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
+        <img src="Resources/IndexAd/ad2.jpg" alt="ad2" width="100%" height="100%" class="center">
     </div>
 </body>
 

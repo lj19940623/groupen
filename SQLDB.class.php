@@ -250,7 +250,17 @@ class groupenDB{
     //===================================================================
     // Orders part
 
-
+    public function countUserOrder($u_uid){
+        $sql = "SELECT COUNT(oid) FROM orders WHERE user_uid = '".$u_uid."'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
+    }
+    public function getOrderListByUid($numPerDiv, $offset, $u_uid){
+        $sql = "SELECT * FROM orders WHERE user_uid = '" . $u_uid . "'";
+        $sql .= "ORDER BY oid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
     //===================================================================
     //===================================================================
     //IOS part
