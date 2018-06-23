@@ -6,14 +6,14 @@
       $postUsername = $_POST['username'];
       $postPassword = $_POST['password'];
       $link = groupenDB::getInstance();
-      $count = $link -> login($postUsername, $postPassword);
+      $count = $link -> testIOS($postUsername, $postPassword);
       if($count!=1){
           $response['message'] = false;
       }else{
-          $response['message'] = true;
+          $response['message'] = "true";
       }
   }
 
-  }
+
   echo json_encode($response);
  ?>

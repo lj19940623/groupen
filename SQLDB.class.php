@@ -264,29 +264,15 @@ class groupenDB{
     //===================================================================
     //===================================================================
     //IOS part
-    public function testIOS($userAccount, $userPassword, $userEmail){
-      $myUsername = mysqli_real_escape_string($this->database, $userAccount);
-      $myPassword = mysqli_real_escape_string($this->database, $userPassword);
-      $myEmail = mysqli_real_escape_string($this->database, $userEmail);
-
-      // check registered
-      $sql = "SELECT uid FROM user WHERE uid = '$myUsername'";
+    public function IOSLogin($userAccount, $userPassword){
+      $myusername = mysqli_real_escape_string($this->database, $userAccount);
+      $mypassword = mysqli_real_escape_string($this->database, $userPassword);
+      $sql = "SELECT uid FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
       $result = mysqli_query($this->database,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $count = mysqli_num_rows($result);
-      if($count > 0 ) {
-          return false;
-      }
-
-      // insert with checking valid
-      $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myUsername. "', '" .$myPassword. "', '" .$myEmail. "')";
-      if(mysqli_query($this->database, $sql)){
-          return true;
-      }
-
-      return false;
+      return $count;
     }
-
 
 }
 ?>
