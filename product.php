@@ -67,7 +67,7 @@ $link = groupenDB::getInstance();
     <div class="productList">
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $productList = $link -> listSomeProduct($numPerDiv,($numPerDiv*$productDiv));
+    $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
 

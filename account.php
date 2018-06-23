@@ -154,7 +154,6 @@ if(isset($_GET["quitGroupWithGid"])){
             echo "<a href=\"account.php?quitGroupWithGid=".$r["groups_gid"] ."\">QuitGroup</a><br> ";
             echo "<br>";
         }
-        echo "next to do";
         ?>
         <form action="account.php" method="get">
             <input type="hidden" name="orderDiv" value = <?php echo isset($_GET["orderDiv"])?$_GET["orderDiv"]:1 ?> >
@@ -164,6 +163,22 @@ if(isset($_GET["quitGroupWithGid"])){
         </form>
     </p>
 
+    <a id='myorder'>
+    </a>
+    <p>
+        <?php
+        echo "<br>You have list following products: <br>";
+        $productList = $link -> getProductListByUid($_SESSION["login_user"]);
+        while ($r = mysqli_fetch_assoc($productList)) {
+            echo "Product id:" . $r["pid"] . "  Product name:" . $r["name"] . "  ";
+            echo "<a href=\"productDetail.php?ProductID={$r["pid"]}\"> detail <a>";
+
+            // echo "<a href=\"account.php?quitGroupWithGid=".$r["gid"] ."\">QuitYourSuperDiscount</a><br> ";
+            echo "<br>";
+        }
+        ?>
+    </p>
+    <p> <a href="listProduct.php"> List Product as seller Click here.</a> </p>
     <!-- Index advertisement -->
     <div style="width:100%;height:300px">
         <img src="Resources/IndexAd/ad2.jpg" alt="ad2" width="100%" height="100%" class="center">

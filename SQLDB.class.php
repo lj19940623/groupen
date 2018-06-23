@@ -106,7 +106,7 @@ class groupenDB{
 
     // function for listing Products
     // public function listing($searchType, $param, $order){
-    public function listSomeProduct($numPerDiv, $offset){
+    public function getProductList($numPerDiv, $offset){
         $sql = "SELECT * FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
         $result = mysqli_query($this->database,$sql);
         return $result;
@@ -117,6 +117,17 @@ class groupenDB{
       $result = mysqli_query($this->database, $sql);
       return mysqli_fetch_array($result)[0];
     }
+    public function getProductListByUid($u_uid){
+        $sql = "SELECT * FROM product WHERE user_uid = '".$u_uid."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    // $result = $link -> listProduct($_POST["name"],$_POST["price"],$_POST["description"],$_POST["tag"],$_POST["category"],$_FILES['photo']["name"], $_POST["start_time"], $_POST["end_time"], $_POST["grouping_size"]);
+
+    // public function listProduct($name,$price,$description,$tag,$category,$photo,$start_time,$end_time,$grouping_size){
+    //     $sql =
+    // }
+
     //===================================================================
     // Group part
 
