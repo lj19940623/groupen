@@ -304,6 +304,28 @@ class groupenDB{
       return mysqli_fetch_array($result)[0];
     }
 
+    // join a circle
+    public function joinCircle($cid, $uid){
+      $sql = "INSERT INTO circle_user (user_uid, circle_cid) VALUES ('" .$uid. "', '" .$cid. "')";
+      if(mysqli_query($this->database, $sql)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    // check in Circles
+    public function checkInCircle($cid, $uid){
+      $sql = "SELECT circle_cid FROM circle_user WHERE circle_cid = '$cid' AND user_uid = '$uid'";
+      $result = mysqli_query($this->database,$sql);
+      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+      $count = mysqli_num_rows($result);
+      if($count == 1) {
+          return true;
+      }
+      return false;
+    }
+
 
 
 
@@ -355,7 +377,7 @@ class groupenDB{
     }
     //===================================================================
     // message
-    
+
     //===================================================================
     //IOS part
     public function IOSLogin($userAccount, $userPassword){

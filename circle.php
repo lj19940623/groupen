@@ -24,6 +24,7 @@ require 'SQLDB.class.php';
         <a href="group.php">Groups</a>
         <a class="active" href="circle.php">Circles</a>
         <input type="text" placeholder="Search circles" name="search">
+        <!-- Search button right here -->
         <input type="submit" value="Search">
         <div class="topnavRight">
             <?php
@@ -74,35 +75,54 @@ require 'SQLDB.class.php';
       <!-- listing circles -->
       <div class="icon">
       <?php
+        $link = groupenDB::getInstance();
         $circleDiv = 0;
         $numPerDiv = 3;
         if($_SERVER["REQUEST_METHOD"] == "GET") {
+            // set pages
             if(isset($_GET["circleDiv"])){
-                $productDiv = $_GET["circleDiv"]-1;
+                $circleDiv = $_GET["circleDiv"]-1;
+            }
+
+            // Join group
+            if(isset($_GET["circleID"]) && isset($_SESSION['login_user'])){
+                $joinResult = $link -> joinCircle($_GET["circleID"], $_SESSION['login_user']);
+                if($joinResult){
+                    echo "<script>alert(\"Join successfully!\")</script>";
+                }else{
+                    echo "<script>alert(\"Failed to join..\")</script>";
+                }
+            }else if(isset($_GET["circleID"]) && !isset($_SESSION['login_user'])){
+                echo "<script>alert(\"Please login first\")</script>";
             }
         }
-        $link = groupenDB::getInstance();
         $circles = $link -> listingCircles($numPerDiv, ($numPerDiv*$circleDiv));
         $numOfCircle = $link -> countCircles();
         echo "we have ".$numOfCircle." circles for you to join!";
 
-
-
+        //===========================================================
+        // Listing circles in a table
         echo "<table style=\"width:100%\">
               <tr>
                 <th>Circle name</th>
                 <th>Tag</th>
+                <th>Action</th>
               </tr>";
-
         while($row = mysqli_fetch_assoc($circles)){
+          $joinLink = "<a href=\"circle.php?circleID={$row["cid"]}\">";
+
           echo "<tr>
                   <td>".$row["name"]."</td>
-                  <td>".$row["tag"]."</td>
-                </tr>";
+                  <td>".$row["tag"]."</td>";
+          if($link->checkInCircle($row["cid"], $_SESSION['login_user'])){
+            echo "<td style=\"color:green\">Joined</td>
+                    </tr>";
+          }else{
+            echo "<td>".$joinLink."Join!</a></td>
+                    </tr>";
+          }
         }
         echo "</table>";
-
-
       ?>
     </div>
 
@@ -119,27 +139,25 @@ require 'SQLDB.class.php';
       <?php
         $page = isset($_GET["circleDiv"])?$_GET["circleDiv"]-1:1;
         $page = ($page>0)?$page:1;
-        echo "<a href=\"product.php?circleDiv={$page}\">Previous page</a>";
+        echo "<a href=\"circle.php?circleDiv={$page}\">Previous page</a>";
       ?>
       </div>
       <div class="icon">
       <form action="circleDiv.php" method="get">
-            <!-- <input type="number" name="circleDiv" value =  <?php echo isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:2 ?>  min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>"> -->
+            <input type="number" name="circleDiv" value =  <?php echo isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:floor((($numOfCircle-1)/$numPerDiv+1)) ?>  min="1" max="<?php echo floor((($numOfCircle-1)/$numPerDiv+1)) ?>">
             <input type="submit" value="Go">
       </form>
       </div>
       <div class="icon">
       <?php
-        // $page = isset($_GET["productDiv"])?$_GET["productDiv"]+1:2;
-        // $page = min($page, ($numOfProduct-1)/$numPerDiv+1);
-        // echo "<a href=\"product.php?productDiv={$page}\">Next page</a>";
+        $link = groupenDB::getInstance();
+        $numOfCircle = $link -> countCircles();
+        $page = isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:2;
+
+        $page = min($page, floor(($numOfCircle-1) / $numPerDiv+1));
+        echo "<a href=\"circle.php?circleDiv={$page}\">Next page</a>";
       ?>
-
-
-
-
   </div>
-
 </body>
 
 

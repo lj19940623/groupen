@@ -96,14 +96,14 @@ $link = groupenDB::getInstance();
     </div>
     <div class="icon">
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo (($numOfProduct-1)/$numPerDiv+1) ?>">
+          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo floor((($numOfProduct-1)/$numPerDiv+1)) ?>">
           <input type="submit" value="Go">
     </form>
     </div>
     <div class="icon">
     <?php
       $page = isset($_GET["productDiv"])?$_GET["productDiv"]+1:2;
-      $page = min($page, ($numOfProduct-1)/$numPerDiv+1);
+      $page = min($page, floor(($numOfProduct-1)/$numPerDiv+1));
       echo "<a href=\"product.php?productDiv={$page}\">Next page</a>";
     ?>
   </div>
