@@ -109,3 +109,11 @@ CREATE TABLE friend_with
     FOREIGN KEY (user_uid) REFERENCES user (uid),
     FOREIGN KEY (friend_uid) REFERENCES user (uid)
 );
+CREATE TABLE friend_request
+(
+    user_uid varchar(10),
+    request_uid varchar(10),
+    PRIMARY KEY (user_uid, request_uid),
+    FOREIGN KEY (user_uid) REFERENCES user (uid),
+    FOREIGN KEY (request_uid) REFERENCES user (uid)
+);
