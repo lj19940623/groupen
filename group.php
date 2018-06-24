@@ -33,6 +33,8 @@ $link = groupenDB::getInstance();
         <a href="product.php">Products</a>
         <a class="active" href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
+        <input type="text" placeholder="Search groups" name="search">
+        <input type="submit" value="Search">
         <div class="topnavRight">
             <?php
             if(isset($_SESSION['login_user'])){

@@ -35,6 +35,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
+        <input type="text" placeholder="Search products" name="search">
+        <input type="submit" value="Search">
         <div class="topnavRight">
             <?php
             if(isset($_SESSION['login_user'])){

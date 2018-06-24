@@ -20,6 +20,8 @@ require 'SQLDB.class.php';
       <a class="active" href="product.php">Products</a>
       <a href="group.php">Groups</a>
       <a href="circle.php">Circles</a>
+      <input type="text" placeholder="Search products" name="search">
+      <input type="submit" value="Search">
       <div class="topnavRight">
           <?php
           if(isset($_SESSION['login_user'])){
