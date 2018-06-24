@@ -317,6 +317,45 @@ class groupenDB{
 
 
     //===================================================================
+    // friend
+    public function sendRequestTo($u_uid){
+        $sql = "INSERT INTO friend_request(user_uid,request_uid) VALUES ('".$u_uid."','".$_SESSION["login_user"]."')";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function acceptRequest($u_uid){
+        $this->refuseRequset($u_uid);
+        $sql = "INSERT INTO friend_with(user_uid,friend_uid) VALUES ('".$_SESSION["login_user"]."','".$u_uid."')";
+        $result = mysqli_query($this->database,$sql);
+        $sql = "INSERT INTO friend_with(user_uid,friend_uid) VALUES ('".$u_uid."','".$_SESSION["login_user"]."')";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function refuseRequset($request_uid){
+        $sql = "DELETE FROM friend_request WHERE user_uid = '".$_SESSION["login_user"]."' AND request_uid = '".$request_uid."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function getRequsetList(){
+        $sql = "SELECT * FROM friend_request WHERE user_uid = '".$_SESSION["login_user"]."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function getFriendList(){
+        $sql = "SELECT * FROM friend_with WHERE user_uid = '".$_SESSION["login_user"]."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function deleteFriend($friend_uid){
+        $sql = "DELETE FROM friend_with WHERE user_uid = '".$_SESSION["login_user"]."' AND friend_uid = '".$friend_uid."'";
+        $result = mysqli_query($this->database,$sql);
+        $sql = "DELETE FROM friend_with WHERE user_uid = '".$friend_uid."' AND friend_uid = '".$_SESSION["login_user"]."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    //===================================================================
+    // message
+    
     //===================================================================
     //IOS part
     public function IOSLogin($userAccount, $userPassword){
