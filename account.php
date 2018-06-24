@@ -70,6 +70,7 @@ if(isset($_GET["quitGroupWithGid"])){
     <?php include 'Resources/CSS/topnav.css'; ?>
     <?php include 'Resources/CSS/topnavRight.css';?>
     <?php include 'Resources/CSS/general.css';?>
+    <?php include 'Resources/CSS/product.css';?>
     </style>
 </head>
 <body>
@@ -101,6 +102,7 @@ if(isset($_GET["quitGroupWithGid"])){
     <div style="width:100%;height:300px">
         <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
     </div>
+    <div class="productList">
     <a id='myorder'>
     </a>
     <p>
@@ -125,6 +127,7 @@ if(isset($_GET["quitGroupWithGid"])){
     <a id='mygroup'>
     </a>
     <p>
+
         <?php
         echo "<br>You have started following groups: ";
         $startedGroupListSize = $link->countGroupStartBy($_SESSION["login_user"]);
@@ -179,6 +182,7 @@ if(isset($_GET["quitGroupWithGid"])){
         ?>
     </p>
     <p> <a href="listProduct.php"> List Product as seller Click here.</a> </p>
+  </div>
     <!-- Index advertisement -->
     <div style="width:100%;height:300px">
         <img src="Resources/IndexAd/ad2.jpg" alt="ad2" width="100%" height="100%" class="center">
