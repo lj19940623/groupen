@@ -275,6 +275,47 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+
+
+    //===================================================================
+    // Circle part
+
+    // create circle
+    public function createCircle($name, $tag){
+      $sql = "INSERT INTO circle (name, tag) VALUES ('" .$name. "', '" .$tag. "')";
+      if(mysqli_query($this->database, $sql)){
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+    // listing Circles
+    public function listingCircles($numPerDiv, $offset){
+      $sql = "SELECT * FROM circle ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+      $result = mysqli_query($this->database,$sql);
+      return $result;
+    }
+
+    // count circles
+    public function countCircles(){
+      $sql = "SELECT COUNT(cid) FROM circle";
+      $result = mysqli_query($this->database, $sql);
+      return mysqli_fetch_array($result)[0];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     //===================================================================
     //===================================================================
     //IOS part
