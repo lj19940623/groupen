@@ -276,6 +276,9 @@ class groupenDB{
     // Circle part
     // create circle
     public function createCircle($name, $tag){
+      $sql = "SELECT COUNT(cid) FROM circle WHERE name = '".$name."'";
+      $result = mysqli_query($this->database, $sql);
+      if(mysqli_fetch_array($result)[0]!=0)return false;
       $sql = "INSERT INTO circle (name, tag) VALUES ('" .$name. "', '" .$tag. "')";
       if(mysqli_query($this->database, $sql)){
         return true;

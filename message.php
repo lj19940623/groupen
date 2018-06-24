@@ -66,38 +66,38 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     </div> <br>
 
 
-<p>
-Your friend list:<br>
-<?php
-$friendList = $link->getFriendList();
-while ($row =  mysqli_fetch_assoc($friendList)) {
-echo "User " . $row["friend_uid"] . " ";
-echo "<a href=\"sendMessage.php?to=".$row["friend_uid"]."\">Send message</a> ";
-echo "<a href=\"message.php?delete=".$row["friend_uid"]."\">Delete</a> <br>";
-}
-echo "------------------------";
-?>
-</p>
+    <p>
+        <form action="message.php" method="get">
+            Send friend request to:
+            <input type="text" name="requesTo" value="user_uid" required>
+            <input type="submit" value="send biubiubiu">
+        </form>
+        ------------------------
+    </p>
+    <p>
+        Your got friend request from:<br>
+        <?php
+        $requestList = $link->getRequsetList();
+        while ($row =  mysqli_fetch_assoc($requestList)) {
+            echo "User " . $row["request_uid"] . " want to be your friend";
+            echo "<a href=\"message.php?accept=".$row["request_uid"]."\">Accept</a> ";
+            echo "<a href=\"message.php?refuse=".$row["request_uid"]."\">Refuse</a> <br>";
+        }
+        echo "------------------------";
+        ?>
+    </p>
+    <p>
+        Your friend list:<br>
+        <?php
+        $friendList = $link->getFriendList();
+        while ($row =  mysqli_fetch_assoc($friendList)) {
+            echo $row["friend_uid"] . " ";
+            echo "<a href=\"sendMessage.php?to=".$row["friend_uid"]."\">Send message</a> ";
+            echo "<a href=\"message.php?delete=".$row["friend_uid"]."\">Delete</a> <br>";
+        }
+        ?>
+    </p>
 
-<p>
-Your got friend request from:<br>
-<?php
-$requestList = $link->getRequsetList();
-while ($row =  mysqli_fetch_assoc($requestList)) {
-    echo "User " . $row["request_uid"] . " want to be your friend";
-    echo "<a href=\"message.php?accept=".$row["request_uid"]."\">Accept</a> ";
-    echo "<a href=\"message.php?refuse=".$row["request_uid"]."\">Refuse</a> <br>";
-}
-echo "------------------------";
- ?>
-</p>
-<p>
-<form action="message.php" method="get">
-Send friend request to:
-<input type="text" name="requesTo" value="" required>
-<input type="submit" value="biubiubiu">
-</form>
-</p>
 
 </body>
 

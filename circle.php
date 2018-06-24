@@ -66,7 +66,7 @@ require 'SQLDB.class.php';
           if($result){
             echo "<script>alert(\"You have created a new circle!\")</script>";
           }else{
-            echo "<script>alert(\"Failed to create a new circle\")</script> ";
+            echo "<script>alert(\"Failed to create a new circle (name may duplicate)\")</script> ";
           }
       }else if($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_SESSION['login_user'])){
         echo "<script>alert(\"Please login first\")</script>";

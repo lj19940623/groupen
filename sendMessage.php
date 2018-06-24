@@ -56,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
     </div> <br>
 <p>
-Your message with <?php echo $_GET["to"] ?>:<br>
+Your message with <?php echo $_GET["to"] ?>:<br><br>
 <?php
 $msgs = $link->getLastestMsgFromTo($_GET["to"]);
 while ($msg = mysqli_fetch_assoc($msgs)) {
@@ -72,7 +72,7 @@ while ($msg = mysqli_fetch_assoc($msgs)) {
 <form action="sendMessage.php?to=<?php echo $_GET["to"] ?>" method="post">
 <input type="hidden" name="to" value="<?php echo $_GET["to"] ?>" >
 <input type="text" name="message" value="" required>
-<input type="submit" value="biubiubiu">
+<input type="submit" value="send biu~">
 </form>
 </p>
 
