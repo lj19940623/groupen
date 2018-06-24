@@ -22,6 +22,7 @@ $link = groupenDB::getInstance();
     <?php include 'Resources/CSS/topnav.css'; ?>
     <?php include 'Resources/CSS/topnavRight.css';?>
     <?php include 'Resources/CSS/general.css';?>
+    <?php include 'Resources/CSS/product.css';?>
     </style>
 </head>
 <body>
@@ -54,6 +55,7 @@ $link = groupenDB::getInstance();
         <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
     </div> <br>
 
+    <div class="productList">
     <!-- Other things -->
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
@@ -73,6 +75,7 @@ $link = groupenDB::getInstance();
         <input type="number" name="groupDiv" value = <?php echo isset($_GET["groupDiv"])?$_GET["groupDiv"]+1:2 ?> min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
         <input type="submit" value="Go">
     </form>
+  </div>
 
 </body>
 

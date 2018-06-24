@@ -58,6 +58,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </div> <br>
 <!-- INSERT INTO `product`(`pid`, `user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`, `grouping_size`, `first_discount`, `discount`)  -->
 <!-- VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6],[value-7],[value-8],[value-9],[value-10],[value-11],[value-12],[value-13]) -->
+
+    <div class="productList">
+
     <form action="listProduct.php" method="post" enctype="multipart/form-data">
         ProductName *
         <input type="text" name="name" value="ProductName" required> <br>
@@ -84,6 +87,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="submit" value="Submit"> <br>
     </form>
 
+  </div>
 
 
 </body>
