@@ -67,9 +67,30 @@ $link = groupenDB::getInstance();
 
     <!-- Other things -->
     <div class="productList">
+      <form method="POST" action="product.php">
+        Sort by:<select name="sortBY">
+          <option value="">Default</option>
+          <option value="phl">Price hight to low</option>
+          <option value="plw">Price low to high</option>
+        </select>
+        <input type="submit" vaule="Sort">
+      </form>
+
+      <br>
+
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
+
+    if(!isset($_POST["sortBY"])){
+      $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
+    }else{
+      $productList = $link -> sortProductByPrice($_POST["sortBY"]);
+      if($_POST["sortBY"] == "phl"){
+        echo "Now sort by price high to low";
+      }else{
+        echo "Now sort by price low to hight";
+      }
+    }
     $numOfProduct = $link -> countProduct();
     echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
 

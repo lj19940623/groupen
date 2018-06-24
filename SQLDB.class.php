@@ -128,6 +128,14 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+    public function sortProductByPrice($mode){
+      $sql = "SELECT * FROM product ORDER BY price ASC";
+      if($mode === "phl"){
+        $sql = "SELECT * FROM product ORDER BY price DESC";
+      }
+      $result = mysqli_query($this->database,$sql);
+      return $result;
+    }
 
     //===================================================================
     // Group part
