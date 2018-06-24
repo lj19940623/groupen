@@ -6,22 +6,13 @@ require 'SQLDB.class.php';
 if(!isset($_SESSION["login_user"])) header("Location: login.php");
 
 $link = groupenDB::getInstance();
-// if($_SERVER["REQUEST_METHOD"] == "POST") {
-//
-// }
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST["to"])&&isset($_POST["message"])){
+        $link->sendMessageTo($_POST["to"],$_POST["message"]);
+    }
+}
 if($_SERVER["REQUEST_METHOD"] == "GET") {
-    if(isset($_GET["requesTo"])) {
-        $link->sendRequestTo($_GET["requesTo"]);
-    }
-    if(isset($_GET["accept"])) {
-        $link->acceptRequest($_GET["accept"]);
-    }
-    if(isset($_GET["refuse"])) {
-        $link->refuseRequset($_GET["refuse"]);
-    }
-    if(isset($_GET["delete"])) {
-        $link->deleteFriend($_GET["delete"]);
-    }
+    if (!isset($_GET["to"])) header("Location: message.php");
 }
 ?>
 
@@ -64,12 +55,23 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     <div style="width:100%;height:300px">
         <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
     </div> <br>
-
+<p>
+Your message with <?php echo $_GET["to"] ?>:<br>
+<?php
+$msgs = $link->getLastestMsgFromTo($_GET["to"]);
+while ($msg = mysqli_fetch_assoc($msgs)) {
+    echo "@". $msg["msg_time"]. ", ";
+    if($msg["sender_uid"]==$_SESSION["login_user"]) echo "You: ";
+    else echo $msg["sender_uid"].": ";
+    echo $msg["context"]."<br>";
+}
+ ?>
+</p>
 
 <p>
-<form action="sendMessage.php" method="get">
-Send friend request to:
-<input type="text" name="requesTo" value="" required>
+<form action="sendMessage.php?to=<?php echo $_GET["to"] ?>" method="post">
+<input type="hidden" name="to" value="<?php echo $_GET["to"] ?>" >
+<input type="text" name="message" value="" required>
 <input type="submit" value="biubiubiu">
 </form>
 </p>

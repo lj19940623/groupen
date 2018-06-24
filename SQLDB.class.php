@@ -122,8 +122,6 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
-    // $result = $link -> listProduct($_POST["name"],$_POST["price"],$_POST["description"],$_POST["tag"],$_POST["category"],$_FILES['photo']["name"], $_POST["start_time"], $_POST["end_time"], $_POST["grouping_size"]);
-
     public function listProduct($name,$price,$description,$tag,$category,$photo,$start_time,$end_time,$grouping_size,$first_discount,$discount){
         $sql = "INSERT INTO product(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`, `grouping_size`, `first_discount`, `discount`) ";
         $sql .= "VALUES ('".$_SESSION["login_user"]."','".$name."','".$price."','".$description."','".$tag."','".$category."','".$photo."','".$start_time."','".$end_time."','".$grouping_size."','".$first_discount."','".$discount."')";
@@ -312,9 +310,37 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+    public function checkIfIsFriend($friend_uid){
+        $sql = "SELECT COUNT(friend_uid) FROM friend_with WHERE user_uid = '".$_SESSION["login_user"]."' AND friend_uid = '".$friend_uid."'";
+        $result = mysqli_query($this->database,$sql);
+        return mysqli_fetch_array($result)[0]==1;
+    }
     //===================================================================
     // message
-    
+    public function sendMessageTo($u_uid, $message){
+        if($this->checkIfIsFriend($u_uid)){
+            $sql = "INSERT INTO user_msg(sender_uid,receiver_uid,context,msg_time) ";
+            $sql .= "VALUES('".$_SESSION["login_user"]."','".$u_uid."','".$message."',CURRENT_TIMESTAMP)";
+            $result = mysqli_query($this->database,$sql);
+            return $result;
+        }else {
+            return false;
+        }
+    }
+    public function getLastestMsg($num){
+        $sql = "SELECT * FROM user_msg WHERE receiver_uid = '".$_SESSION["login_user"]."' ";
+        $sql .= "ORDER BY msg_time DESC LIMIT ".$num;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function getLastestMsgFromTo($friend_uid){
+        $sql = "SELECT * FROM ((SELECT * FROM user_msg WHERE receiver_uid = '".$_SESSION["login_user"]."' AND sender_uid = '".$friend_uid."'";
+        $sql .= ") UNION (";
+        $sql .=" SELECT * FROM user_msg WHERE sender_uid = '".$_SESSION["login_user"]."' AND receiver_uid = '".$friend_uid."'))";
+        $sql .= " d ORDER BY msg_time DESC";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
     //===================================================================
     //IOS part
     public function IOSLogin($userAccount, $userPassword){
