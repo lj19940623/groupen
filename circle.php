@@ -23,9 +23,10 @@ require 'SQLDB.class.php';
         <a href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a class="active" href="circle.php">Circles</a>
-        <input type="text" placeholder="Search circles" name="search">
-        <!-- Search button right here -->
-        <input type="submit" value="Search">
+        <form action="circle.php" method="get">
+            <input type="text" placeholder="Search circles" name="searchName">
+            <input type="submit" value="Search">
+        </form>
         <div class="topnavRight">
             <?php
             if(isset($_SESSION['login_user'])){
@@ -53,7 +54,7 @@ require 'SQLDB.class.php';
       <!-- create group -->
       <form action="circle.php" method="post">
         <label>Circle name: </label> <input type = "text" name = "name" required />
-        <label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsptag: </label> <input type = "text" name = "tag"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <label>Tag: </label> <input type = "text" name = "tag"/>
         <input type="submit" value="Create circle">
       </form>
       <?php
@@ -96,9 +97,15 @@ require 'SQLDB.class.php';
                 echo "<script>alert(\"Please login first\")</script>";
             }
         }
-        $circles = $link -> listingCircles($numPerDiv, ($numPerDiv*$circleDiv));
-        $numOfCircle = $link -> countCircles();
-        echo "we have ".$numOfCircle." circles for you to join!";
+        if (isset($_GET["searchName"])) {
+            $circles = $link -> listingCirclesByName($numPerDiv, ($numPerDiv*$circleDiv),$_GET["searchName"]);
+            $numOfCircle = $link -> countCirclesByName($_GET["searchName"]);
+            echo "Search result: ".$numOfCircle." circles!";
+        }else{
+            $circles = $link -> listingCircles($numPerDiv, ($numPerDiv*$circleDiv));
+            $numOfCircle = $link -> countCircles();
+            echo "We have ".$numOfCircle." circles for you to join!";
+        }
 
         //===========================================================
         // Listing circles in a table
@@ -115,7 +122,7 @@ require 'SQLDB.class.php';
                   <td>".$row["name"]."</td>
                   <td>".$row["tag"]."</td>";
           if($link->checkInCircle($row["cid"], $_SESSION['login_user'])){
-            echo "<td style=\"color:green\">Joined</td>
+            echo "<td style=\"color:green\"> <a href=\"circleNews.php?cid=".$row["cid"]."\">See news</a></td>
                     </tr>";
           }else{
             echo "<td>".$joinLink."Join!</a></td>
@@ -125,10 +132,6 @@ require 'SQLDB.class.php';
         echo "</table>";
       ?>
     </div>
-
-
-
-
 
 
 
@@ -143,17 +146,14 @@ require 'SQLDB.class.php';
       ?>
       </div>
       <div class="icon">
-      <form action="circleDiv.php" method="get">
+      <form action="circle.php" method="get">
             <input type="number" name="circleDiv" value =  <?php echo isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:floor((($numOfCircle-1)/$numPerDiv+1)) ?>  min="1" max="<?php echo floor((($numOfCircle-1)/$numPerDiv+1)) ?>">
             <input type="submit" value="Go">
       </form>
       </div>
       <div class="icon">
       <?php
-        $link = groupenDB::getInstance();
-        $numOfCircle = $link -> countCircles();
         $page = isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:2;
-
         $page = min($page, floor(($numOfCircle-1) / $numPerDiv+1));
         echo "<a href=\"circle.php?circleDiv={$page}\">Next page</a>";
       ?>

@@ -41,8 +41,10 @@ $link = groupenDB::getInstance();
         <a class="active" href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
-        <input type="text" placeholder="Search products" name="search">
-        <input type="submit" value="Search">
+        <form action="product.php" method="get">
+            <input type="text" placeholder="Search products" name="search">
+            <input type="submit" value="Search">
+        </form>
         <div class="topnavRight">
             <?php
             if(isset($_SESSION['login_user'])){
@@ -69,9 +71,15 @@ $link = groupenDB::getInstance();
     <div class="productList">
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
-    $numOfProduct = $link -> countProduct();
-    echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
+    if(isset($_GET["search"])){
+        $productList = $link -> getProductListBySearch($numPerDiv,($numPerDiv*$productDiv),$_GET["search"]);
+        $numOfProduct = $link -> countProductBySearch($_GET["search"]);
+        echo "<br> Search Result: ". $numOfProduct . " products for groupen now <br><br>";
+    }else{
+        $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
+        $numOfProduct = $link -> countProduct();
+        echo "<br> Groupen has ". $numOfProduct . " products now <br><br>";
+    }
 
     while($row = mysqli_fetch_assoc($productList)) {
         $detailLink = "<a href=\"productDetail.php?ProductID={$row["pid"]}\">";

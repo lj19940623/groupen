@@ -111,9 +111,19 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+    public function getProductListBySearch($numPerDiv, $offset, $search){
+        $sql = "SELECT * FROM product WHERE name LIKE '%".$search."%' ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
 
     public function countProduct(){
       $sql = "SELECT COUNT(pid) FROM product";
+      $result = mysqli_query($this->database, $sql);
+      return mysqli_fetch_array($result)[0];
+    }
+    public function countProductBySearch($search){
+      $sql = "SELECT COUNT(pid) FROM product WHERE name LIKE '%".$search."%'";
       $result = mysqli_query($this->database, $sql);
       return mysqli_fetch_array($result)[0];
     }
@@ -298,6 +308,19 @@ class groupenDB{
       $result = mysqli_query($this->database, $sql);
       return mysqli_fetch_array($result)[0];
     }
+    // listing Circles
+    public function listingCirclesByName($numPerDiv, $offset,$name){
+      $sql = "SELECT * FROM circle WHERE name LIKE '%".$name."%'";
+      $sql .= " ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+      $result = mysqli_query($this->database,$sql);
+      return $result;
+    }
+    // count circles
+    public function countCirclesByName($name){
+      $sql = "SELECT COUNT(cid) FROM circle WHERE name LIKE '%".$name."%'";
+      $result = mysqli_query($this->database, $sql);
+      return mysqli_fetch_array($result)[0];
+    }
     // join a circle
     public function joinCircle($cid, $uid){
       $sql = "INSERT INTO circle_user (user_uid, circle_cid) VALUES ('" .$uid. "', '" .$cid. "')";
@@ -317,6 +340,17 @@ class groupenDB{
           return true;
       }
       return false;
+    }
+    public function getLastestCircleMsg($c_cid, $num){
+            $sql = "SELECT * FROM circle_msg WHERE circle_cid = '".$c_cid."' ORDER BY msg_time DESC LIMIT ".$num;
+            $result = mysqli_query($this->database,$sql);
+            return $result;
+    }
+    public function sendMessageToCircle($c_cid,$message){
+            $sql = "INSERT INTO circle_msg(sender_uid,circle_cid,context,msg_time) ";
+            $sql .= "VALUES('".$_SESSION["login_user"]."','".$c_cid."','".$message."',CURRENT_TIMESTAMP)";
+            $result = mysqli_query($this->database,$sql);
+            return $result;
     }
     //===================================================================
     // friend
