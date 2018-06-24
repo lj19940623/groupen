@@ -60,6 +60,9 @@ if(isset($_GET["quitGroupWithGid"])){
         header("Location: notInGroup.php");
     }
 }
+if(isset($_GET["clear"])){
+    $link->clearSavedList();
+}
 
 ?>
 
@@ -105,6 +108,16 @@ if(isset($_GET["quitGroupWithGid"])){
         <img src="Resources/IndexAd/ad1.jpg" alt="ad1" width="100%" height="100%" class="center">
     </div>
     <div class="productList">
+        <?php
+            $savedList = $link->getSavedList();
+            if($row=mysqli_fetch_assoc($savedList)){
+                echo "Saved Product:<br>";
+                do {
+                    echo "pid: ".$row["pid"]." name: ".$row["name"]."<br>";
+                } while ($row=mysqli_fetch_assoc($savedList));
+                echo "<a href=\"account.php?clear=1\">clear</a><br>";
+            }
+         ?>
     <a id='myorder'>
     </a>
     <p>

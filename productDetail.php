@@ -44,6 +44,9 @@ require 'SQLDB.class.php';
     $productID = $_GET["ProductID"];
     $link = groupenDB::getInstance();
     $product = $link->searchByPid($productID);
+    if(isset($_GET["save"])){
+        $link->addToSavedList($productID);
+    }
 
     echo "<br><div>";
     echo "&nbsp&nbsp&nbsp&nbsp<a href=\"product.php\">Products</a>>><a href=\"http://localhost/groupen/productDetail.php?ProductID=".$product["pid"]."\">".$product["name"]."</a>";
@@ -68,7 +71,8 @@ require 'SQLDB.class.php';
     echo "<b>tag: </b>".$product["tag"]."<br>";
     echo "<b>Description: </b>".$product["description"]."<br>";
     echo "<a href=\"account.php?makeGroupWithPid=".$product["pid"]."\">Groupen it!</a><br> ";
-    echo "or <a href=\"group.php?pid=".$product["pid"]."\">Find Group!</a> <br><br>";
+    echo "or <a href=\"group.php?pid=".$product["pid"]."\">Find Group!</a> <br>";
+    echo "or <a href=\"productDetail.php?ProductID=".$product["pid"]."&save=1\">Save</a> <br><br>";
     echo "</div>";
 
     echo "</div>";

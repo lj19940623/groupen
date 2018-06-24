@@ -85,7 +85,7 @@ require 'SQLDB.class.php';
                 $circleDiv = $_GET["circleDiv"]-1;
             }
 
-            // Join group
+            // Join circle
             if(isset($_GET["circleID"]) && isset($_SESSION['login_user'])){
                 $joinResult = $link -> joinCircle($_GET["circleID"], $_SESSION['login_user']);
                 if($joinResult){
@@ -96,6 +96,10 @@ require 'SQLDB.class.php';
             }else if(isset($_GET["circleID"]) && !isset($_SESSION['login_user'])){
                 echo "<script>alert(\"Please login first\")</script>";
             }
+            // quit
+            if(isset($_GET["quit"])&&isset($_SESSION['login_user'])){
+                $link->quitCircle($_GET["quit"]);
+            }
         }
         if (isset($_GET["searchName"])) {
             $circles = $link -> listingCirclesByName($numPerDiv, ($numPerDiv*$circleDiv),$_GET["searchName"]);
@@ -104,7 +108,7 @@ require 'SQLDB.class.php';
         }else{
             $circles = $link -> listingCircles($numPerDiv, ($numPerDiv*$circleDiv));
             $numOfCircle = $link -> countCircles();
-            echo "We have ".$numOfCircle." circles for you to join!";
+            echo "We have ".$numOfCircle." circles in total!";
         }
 
         //===========================================================
@@ -121,7 +125,7 @@ require 'SQLDB.class.php';
           echo "<tr>
                   <td>".$row["name"]."</td>
                   <td>".$row["tag"]."</td>";
-          if($link->checkInCircle($row["cid"], $_SESSION['login_user'])){
+          if(isset($_SESSION['login_user'])&&$link->checkInCircle($row["cid"], $_SESSION['login_user'])){
             echo "<td style=\"color:green\"> <a href=\"circleNews.php?cid=".$row["cid"]."\">See news</a></td>
                     </tr>";
           }else{

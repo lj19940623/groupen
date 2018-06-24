@@ -61,31 +61,32 @@ $link = groupenDB::getInstance();
 
     <!-- Other things -->
     <div class="productList">
-      <form method="GET" action="product.php">
+      <!-- <form method="GET" action="product.php">
         Sort by:<select name="sortBY">
           <option value="">Default</option>
           <option value="phl">Price hight to low</option>
           <option value="plw">Price low to high</option>
         </select>
         <input type="submit" vaule="Sort">
-      </form>
+      </form> -->
 
       <br>
 
     <?php
     // echo "offset = " . ($numPerDiv * $productDiv);
-    if(isset($_GET["search"]) && isset($_GET["sortBY"])){
-        $productList = $link -> getProductListBySearchSort($numPerDiv,($numPerDiv*$productDiv),$_GET["search"],$_GET["sortBY"]);
-        $numOfProduct = $link -> countProductBySearch($_GET["search"]);
-        echo "<br> Search Result: ". $numOfProduct . " products for groupen now <br><br>";
-    }else if(isset($_GET["search"])){
+    // if(isset($_GET["search"]) && isset($_GET["sortBY"])){
+    //     $productList = $link -> getProductListBySearchSort($numPerDiv,($numPerDiv*$productDiv),$_GET["search"],$_GET["sortBY"]);
+    //     $numOfProduct = $link -> countProductBySearch($_GET["search"]);
+    //     echo "<br> Search Result: ". $numOfProduct . " products for groupen now <br><br>";
+    // }else
+    if(isset($_GET["search"])){
         $productList = $link -> getProductListBySearch($numPerDiv,($numPerDiv*$productDiv),$_GET["search"]);
         $numOfProduct = $link -> countProductBySearch($_GET["search"]);
         echo "<br> Search Result: ". $numOfProduct . " products for groupen now <br><br>";
-    }else if(isset($_GET["sortBY"])){
-        $productList = $link -> sortProductByPrice($_GET["sortBY"]);
-        $numOfProduct = $link -> countProductBySearch($_GET["search"]);
-        echo "<br> Sort Result: ". $numOfProduct . " products for groupen now <br><br>";
+    // }else if(isset($_GET["sortBY"])){
+    //     $productList = $link -> sortProductByPrice($_GET["sortBY"]);
+    //     $numOfProduct = $link -> countProductBySearch($_GET["search"]);
+    //     echo "<br> Sort Result: ". $numOfProduct . " products for groupen now <br><br>";
     }else {
         $productList = $link -> getProductList($numPerDiv,($numPerDiv*$productDiv));
         $numOfProduct = $link -> countProduct();
@@ -93,8 +94,8 @@ $link = groupenDB::getInstance();
     }
 
 
-    $numOfProduct = $link -> countProduct();
-    echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
+    // $numOfProduct = $link -> countProduct();
+    // echo "<br> we have ". $numOfProduct . " products for groupen now <br><br>";
 
     while($row = mysqli_fetch_assoc($productList)) {
         $detailLink = "<a href=\"productDetail.php?ProductID={$row["pid"]}\">";

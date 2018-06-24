@@ -88,7 +88,7 @@ class groupenDB{
     public function searchByPid($pid){
         $sql = "SELECT * FROM product WHERE pid=".$pid."";
         $result = mysqli_query($this->database,$sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $row = mysqli_fetch_assoc($result);
         return $row;
     }
     public function getProductGroupingSizeByPid($pid){
@@ -118,14 +118,14 @@ class groupenDB{
     }
 
     public function countProduct(){
-      $sql = "SELECT COUNT(pid) FROM product";
-      $result = mysqli_query($this->database, $sql);
-      return mysqli_fetch_array($result)[0];
+        $sql = "SELECT COUNT(pid) FROM product";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
     }
     public function countProductBySearch($search){
-      $sql = "SELECT COUNT(pid) FROM product WHERE name LIKE '%".$search."%'";
-      $result = mysqli_query($this->database, $sql);
-      return mysqli_fetch_array($result)[0];
+        $sql = "SELECT COUNT(pid) FROM product WHERE name LIKE '%".$search."%'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
     }
     public function getProductListByUid($u_uid){
         $sql = "SELECT * FROM product WHERE user_uid = '".$u_uid."'";
@@ -138,14 +138,30 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
-    public function sortProductByPrice($mode){
-      $sql = "SELECT * FROM product ORDER BY price ASC";
-      if($mode === "phl"){
-        $sql = "SELECT * FROM product ORDER BY price DESC";
-      }
-      $result = mysqli_query($this->database,$sql);
-      return $result;
+    public function addToSavedList($p_pid){
+        $sql = "INSERT INTO saved_product(user_uid,product_pid) VALUES('".$_SESSION["login_user"]."','".$p_pid."')";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
     }
+    public function getSavedList(){
+        $sql = "SELECT product.pid, product.name FROM (product INNER JOIN saved_product ON product.pid = saved_product.product_pid) WHERE saved_product.user_uid = '".$_SESSION["login_user"]."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function clearSavedList(){
+        $sql = "DELETE FROM saved_product WHERE user_uid = '".$_SESSION["login_user"]."'";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    // public function sortProductByPrice($mode){
+    //     if($mode === "phl") $sql = "SELECT * FROM product ORDER BY price DESC";
+    //     else $sql = "SELECT * FROM product ORDER BY price ASC";
+    //     $result = mysqli_query($this->database,$sql);
+    //     return $result;
+    // }
+    // public function getProductListBySearchSort(){
+    //
+    // }
 
     //===================================================================
     // Group part
@@ -224,14 +240,14 @@ class groupenDB{
         }
     }
     public function checkIfIsGroupStarter($u_uid, $g_gid){
-      $sql = "SELECT COUNT(starter_uid) FROM groups WHERE gid = '".$g_gid."' AND starter_uid = '". $u_uid ."'";
-      $result = mysqli_query($this->database, $sql);
-      return (mysqli_fetch_array($result)[0]==1);
+        $sql = "SELECT COUNT(starter_uid) FROM groups WHERE gid = '".$g_gid."' AND starter_uid = '". $u_uid ."'";
+        $result = mysqli_query($this->database, $sql);
+        return (mysqli_fetch_array($result)[0]==1);
     }
     public function checkIfIsGroupMember($u_uid, $g_gid){
-      $sql = "SELECT COUNT(groups_gid) FROM groupmember WHERE groups_gid = '".$g_gid."' AND user_uid = '" .$u_uid. "'";
-      $result = mysqli_query($this->database, $sql);
-      return (mysqli_fetch_array($result)[0]==1);
+        $sql = "SELECT COUNT(groups_gid) FROM groupmember WHERE groups_gid = '".$g_gid."' AND user_uid = '" .$u_uid. "'";
+        $result = mysqli_query($this->database, $sql);
+        return (mysqli_fetch_array($result)[0]==1);
     }
     public function getGroupListStartBy($numPerDiv, $offset, $u_uid){
         $sql = "SELECT * FROM groups WHERE starter_uid = '" . $u_uid . "'";
@@ -279,86 +295,91 @@ class groupenDB{
     }
     //===================================================================
     // Orders part
-        public function countUserOrder($u_uid){
-            $sql = "SELECT COUNT(oid) FROM orders WHERE user_uid = '".$u_uid."'";
-            $result = mysqli_query($this->database, $sql);
-            return mysqli_fetch_array($result)[0];
-        }
-        public function getOrderListByUid($numPerDiv, $offset, $u_uid){
-            $sql = "SELECT * FROM orders WHERE user_uid = '" . $u_uid . "'";
-            $sql .= "ORDER BY oid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
-            $result = mysqli_query($this->database,$sql);
-            return $result;
-        }
+    public function countUserOrder($u_uid){
+        $sql = "SELECT COUNT(oid) FROM orders WHERE user_uid = '".$u_uid."'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
+    }
+    public function getOrderListByUid($numPerDiv, $offset, $u_uid){
+        $sql = "SELECT * FROM orders WHERE user_uid = '" . $u_uid . "'";
+        $sql .= "ORDER BY oid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
     //===================================================================
     // Circle part
     // create circle
     public function createCircle($name, $tag){
-      $sql = "SELECT COUNT(cid) FROM circle WHERE name = '".$name."'";
-      $result = mysqli_query($this->database, $sql);
-      if(mysqli_fetch_array($result)[0]!=0)return false;
-      $sql = "INSERT INTO circle (name, tag) VALUES ('" .$name. "', '" .$tag. "')";
-      if(mysqli_query($this->database, $sql)){
-        return true;
-      }else{
-        return false;
-      }
+        $sql = "SELECT COUNT(cid) FROM circle WHERE name = '".$name."'";
+        $result = mysqli_query($this->database, $sql);
+        if(mysqli_fetch_array($result)[0]!=0)return false;
+        $sql = "INSERT INTO circle (name, tag) VALUES ('" .$name. "', '" .$tag. "')";
+        if(mysqli_query($this->database, $sql)){
+            return true;
+        }else{
+            return false;
+        }
     }
     // listing Circles
     public function listingCircles($numPerDiv, $offset){
-      $sql = "SELECT * FROM circle ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
-      $result = mysqli_query($this->database,$sql);
-      return $result;
+        $sql = "SELECT * FROM circle ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
     }
     // count circles
     public function countCircles(){
-      $sql = "SELECT COUNT(cid) FROM circle";
-      $result = mysqli_query($this->database, $sql);
-      return mysqli_fetch_array($result)[0];
+        $sql = "SELECT COUNT(cid) FROM circle";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
     }
     // listing Circles
     public function listingCirclesByName($numPerDiv, $offset,$name){
-      $sql = "SELECT * FROM circle WHERE name LIKE '%".$name."%'";
-      $sql .= " ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
-      $result = mysqli_query($this->database,$sql);
-      return $result;
+        $sql = "SELECT * FROM circle WHERE name LIKE '%".$name."%'";
+        $sql .= " ORDER BY cid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
     }
     // count circles
     public function countCirclesByName($name){
-      $sql = "SELECT COUNT(cid) FROM circle WHERE name LIKE '%".$name."%'";
-      $result = mysqli_query($this->database, $sql);
-      return mysqli_fetch_array($result)[0];
+        $sql = "SELECT COUNT(cid) FROM circle WHERE name LIKE '%".$name."%'";
+        $result = mysqli_query($this->database, $sql);
+        return mysqli_fetch_array($result)[0];
     }
     // join a circle
     public function joinCircle($cid, $uid){
-      $sql = "INSERT INTO circle_user (user_uid, circle_cid) VALUES ('" .$uid. "', '" .$cid. "')";
-      if(mysqli_query($this->database, $sql)){
-        return true;
-      }else{
-        return false;
-      }
+        $sql = "INSERT INTO circle_user (user_uid, circle_cid) VALUES ('" .$uid. "', '" .$cid. "')";
+        if(mysqli_query($this->database, $sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    // quit
+    public function quitCircle($c_cid){
+        $sql = "DELETE FROM circle_user WHERE circle_cid = '".$c_cid."' AND user_uid = '".$_SESSION["login_user"]."'";
+        return $result = mysqli_query($this->database,$sql);
     }
     // check in Circles
     public function checkInCircle($cid, $uid){
-      $sql = "SELECT circle_cid FROM circle_user WHERE circle_cid = '$cid' AND user_uid = '$uid'";
-      $result = mysqli_query($this->database,$sql);
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $count = mysqli_num_rows($result);
-      if($count == 1) {
-          return true;
-      }
-      return false;
+        $sql = "SELECT circle_cid FROM circle_user WHERE circle_cid = '$cid' AND user_uid = '$uid'";
+        $result = mysqli_query($this->database,$sql);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $count = mysqli_num_rows($result);
+        if($count == 1) {
+            return true;
+        }
+        return false;
     }
     public function getLastestCircleMsg($c_cid, $num){
-            $sql = "SELECT * FROM circle_msg WHERE circle_cid = '".$c_cid."' ORDER BY msg_time DESC LIMIT ".$num;
-            $result = mysqli_query($this->database,$sql);
-            return $result;
+        $sql = "SELECT * FROM circle_msg WHERE circle_cid = '".$c_cid."' ORDER BY msg_time DESC LIMIT ".$num;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
     }
     public function sendMessageToCircle($c_cid,$message){
-            $sql = "INSERT INTO circle_msg(sender_uid,circle_cid,context,msg_time) ";
-            $sql .= "VALUES('".$_SESSION["login_user"]."','".$c_cid."','".$message."',CURRENT_TIMESTAMP)";
-            $result = mysqli_query($this->database,$sql);
-            return $result;
+        $sql = "INSERT INTO circle_msg(sender_uid,circle_cid,context,msg_time) ";
+        $sql .= "VALUES('".$_SESSION["login_user"]."','".$c_cid."','".$message."',CURRENT_TIMESTAMP)";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
     }
     //===================================================================
     // friend
@@ -422,22 +443,22 @@ class groupenDB{
     }
     public function getLastestMsgFromTo($friend_uid){
         $sql = "SELECT * FROM ((SELECT * FROM user_msg WHERE receiver_uid = '".$_SESSION["login_user"]."' AND sender_uid = '".$friend_uid."'";
-        $sql .= ") UNION (";
-        $sql .=" SELECT * FROM user_msg WHERE sender_uid = '".$_SESSION["login_user"]."' AND receiver_uid = '".$friend_uid."'))";
-        $sql .= " d ORDER BY msg_time DESC";
-        $result = mysqli_query($this->database,$sql);
-        return $result;
-    }
-    //===================================================================
-    //IOS part
-    public function IOSLogin($userAccount, $userPassword){
-      $myusername = mysqli_real_escape_string($this->database, $userAccount);
-      $mypassword = mysqli_real_escape_string($this->database, $userPassword);
-      $sql = "SELECT uid FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
-      $result = mysqli_query($this->database,$sql);
-      $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-      $count = mysqli_num_rows($result);
-      return $count;
-    }
-}
-?>
+            $sql .= ") UNION (";
+                $sql .=" SELECT * FROM user_msg WHERE sender_uid = '".$_SESSION["login_user"]."' AND receiver_uid = '".$friend_uid."'))";
+                $sql .= " d ORDER BY msg_time DESC";
+                $result = mysqli_query($this->database,$sql);
+                return $result;
+            }
+            //===================================================================
+            //IOS part
+            public function IOSLogin($userAccount, $userPassword){
+                $myusername = mysqli_real_escape_string($this->database, $userAccount);
+                $mypassword = mysqli_real_escape_string($this->database, $userPassword);
+                $sql = "SELECT uid FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
+                $result = mysqli_query($this->database,$sql);
+                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                $count = mysqli_num_rows($result);
+                return $count;
+            }
+        }
+        ?>

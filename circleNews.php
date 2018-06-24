@@ -78,6 +78,9 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         echo $msg["context"]."<br>";
     }
      ?>
+     <p>
+         <a href="circle.php?quit=<?php echo $_GET["cid"]?>">Quit Circle</a>
+     </p>
 
 
 </body>
