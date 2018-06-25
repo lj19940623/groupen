@@ -50,22 +50,28 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
             ?>
         </div>
     </div>
+    <!-- Index advertisement -->
+    <div style="width:100%;height:300px">
+        <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
+    </div> <br>
 
 <p>
+  <div class="productList">
 Your message with <?php echo $_GET["to"] ?>:<br><br>
 
-<div style="width: 600px; height: 500px; overflow-y: auto;">
+<div style="margin-left: 15%; margin-right: 15%;width: 70%; height: 500px; overflow-y: auto;border: 3px solid grey">
 <?php
 $msgs = $link->getLastestMsgFromTo($_GET["to"]);
 while ($msg = mysqli_fetch_assoc($msgs)) {
     echo "@". $msg["msg_time"]. ", ";
-    if($msg["sender_uid"]==$_SESSION["login_user"]) echo "You: ";
+    if($msg["sender_uid"]==$_SESSION["login_user"]) echo "You:&nbsp";
     else echo $msg["sender_uid"].": ";
     echo $msg["context"]."<br>";
 }
  ?>
 </div>
 </p>
+
 
 <p>
 <form action="sendMessage.php?to=<?php echo $_GET["to"] ?>" method="post">
@@ -74,11 +80,8 @@ while ($msg = mysqli_fetch_assoc($msgs)) {
 <input type="submit" value="send biu~">
 </form>
 </p>
-    <!-- Index advertisement -->
-    <div style="width:100%;height:300px">
-        <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
-    </div> <br>
 
+</div>
 </body>
 
 
