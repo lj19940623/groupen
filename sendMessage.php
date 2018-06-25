@@ -51,12 +51,10 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         </div>
     </div>
 
-    <!-- Index advertisement -->
-    <div style="width:100%;height:300px">
-        <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
-    </div> <br>
 <p>
 Your message with <?php echo $_GET["to"] ?>:<br><br>
+
+<div style="width: 600px; height: 500px; overflow-y: auto;">
 <?php
 $msgs = $link->getLastestMsgFromTo($_GET["to"]);
 while ($msg = mysqli_fetch_assoc($msgs)) {
@@ -66,15 +64,20 @@ while ($msg = mysqli_fetch_assoc($msgs)) {
     echo $msg["context"]."<br>";
 }
  ?>
+</div>
 </p>
 
 <p>
 <form action="sendMessage.php?to=<?php echo $_GET["to"] ?>" method="post">
 <input type="hidden" name="to" value="<?php echo $_GET["to"] ?>" >
-<input type="text" name="message" value="" required>
+<input type="text" autofocus placeholder="Your message here" name="message" value="" required>
 <input type="submit" value="send biu~">
 </form>
 </p>
+    <!-- Index advertisement -->
+    <div style="width:100%;height:300px">
+        <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
+    </div> <br>
 
 </body>
 
