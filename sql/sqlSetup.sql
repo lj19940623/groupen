@@ -34,8 +34,6 @@ CREATE TABLE product
     PRIMARY KEY (pid),
     FOREIGN KEY (user_uid) REFERENCES user (uid)
 );
-INSERT INTO `product`(`user_uid`, `name`, `price`, `description`, `tag`, `category`, `photo_url`, `start_time`, `end_time`)
-VALUES ('jian','testproduct1',99.9,'description1','tag1','category1','photo_url1',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP);
 CREATE TABLE saved_product
 (
     user_uid varchar(10),

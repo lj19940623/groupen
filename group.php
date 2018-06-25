@@ -33,7 +33,7 @@ $link = groupenDB::getInstance();
         <a href="product.php">Products</a>
         <a class="active" href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
-        <form action="group.php" method="get">
+        <form action="group.php" method="get" style="margin:0">
             <input type="text" placeholder="Search by product pid" name="pid">
             <input type="submit" value="Search">
         </form>
@@ -76,7 +76,7 @@ $link = groupenDB::getInstance();
     <br>
     <form action="group.php" method="get">
         <input type="hidden" name="pid" value="<?php echo isset($_GET['pid']) ? $_GET['pid'] : '-1' ?>">
-        <input type="number" name="groupDiv" value = <?php echo isset($_GET["groupDiv"])?$_GET["groupDiv"]+1:2 ?> min="1" max="<?php echo (($numOfGroup-1)/$numPerDiv+1) ?>">
+        <input type="number" name="groupDiv" value = <?php echo isset($_GET["groupDiv"])?$_GET["groupDiv"]+1:(floor((($numOfGroup-1)/$numPerDiv+1))+1) ?> min="1" max="<?php echo floor((($numOfGroup-1)/$numPerDiv+1))+1 ?>">
         <input type="submit" value="Go">
     </form>
   </div>

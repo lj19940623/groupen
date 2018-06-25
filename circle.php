@@ -23,8 +23,8 @@ require 'SQLDB.class.php';
         <a href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a class="active" href="circle.php">Circles</a>
-        <form action="circle.php" method="get">
-            <input type="text" placeholder="Search circles" name="searchName">
+        <form action="circle.php" method="get" style="margin:0">
+            <input type="text" placeholder="Search circles" name="searchName" >
             <input type="submit" value="Search">
         </form>
         <div class="topnavRight">
@@ -151,7 +151,7 @@ require 'SQLDB.class.php';
       </div>
       <div class="icon">
       <form action="circle.php" method="get">
-            <input type="number" name="circleDiv" value =  <?php echo isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:floor((($numOfCircle-1)/$numPerDiv+1)) ?>  min="1" max="<?php echo floor((($numOfCircle-1)/$numPerDiv+1)) ?>">
+            <input type="number" name="circleDiv" value =  <?php echo isset($_GET["circleDiv"])?$_GET["circleDiv"]+1:(floor((($numOfCircle-1)/$numPerDiv+1))+1) ?>  min="1" max="<?php echo floor((($numOfCircle-1)/$numPerDiv+1))+1 ?>">
             <input type="submit" value="Go">
       </form>
       </div>

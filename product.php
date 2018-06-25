@@ -33,24 +33,24 @@ $link = groupenDB::getInstance();
         <a class="active" href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
-        <form action="product.php" method="get">
+        <form action="product.php" method="get" style="margin:0">
             <input type="text" placeholder="Search products" name="search">
             <input type="submit" value="Search">
         </form>
         <div class="topnavRight">
-            <?php
-            if(isset($_SESSION['login_user'])){
-                echo "<a href=\"logout.php\">Log out</a>
-                <a href=\"account.php\">Welcome back, ".$_SESSION['login_user']."</a>
-                <a href=\"message.php\">Message</a>
-                <a href=\"account.php#myorder\">My orders</a>
-                <a href=\"account.php#mygroup\">My groups</a>
-                ";
-            }else{
-                echo "<a href=\"login.php\">Log in</a>
-                <a href=\"signup.php\">Sign up</a>";
-            }
-            ?>
+          <?php
+          if(isset($_SESSION['login_user'])){
+              echo "<a href=\"logout.php\">Log out</a>
+              <a href=\"account.php\">Welcome back, ".$_SESSION['login_user']."</a>
+              <a href=\"message.php\">Message</a>
+              <a href=\"account.php#myorder\">My orders</a>
+              <a href=\"account.php#mygroup\">My groups</a>
+              ";
+          }else{
+              echo "<a href=\"login.php\">Log in</a>
+              <a href=\"signup.php\">Sign up</a>";
+          }
+          ?>
         </div>
     </div>
 
@@ -120,7 +120,7 @@ $link = groupenDB::getInstance();
     </div>
     <div class="icon">
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:2 ?>  min="1" max="<?php echo floor((($numOfProduct-1)/$numPerDiv+1)) ?>">
+          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:(floor((($numOfProduct-1)/$numPerDiv+1))+1) ?>  min="1" max="<?php echo floor((($numOfProduct-1)/$numPerDiv+1))+1 ?>">
           <input type="submit" value="Go">
     </form>
     </div>

@@ -65,14 +65,14 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         <img src="Resources/IndexAd/ad1.jpg" width="100%" height="100%" class="center">
     </div> <br>
 
-
+    <div class="productList">
     <p>
         <form action="message.php" method="get">
             Send friend request to:
-            <input type="text" name="requesTo" value="user_uid" required>
-            <input type="submit" value="send biubiubiu">
+            <input type="text" name="requesTo" value="User name" required>
+            <input type="submit" value="Send request">
         </form>
-        ------------------------
+        <br><br>------------------------
     </p>
     <p>
         Your got friend request from:<br>
@@ -83,7 +83,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
             echo "<a href=\"message.php?accept=".$row["request_uid"]."\">Accept</a> ";
             echo "<a href=\"message.php?refuse=".$row["request_uid"]."\">Refuse</a> <br>";
         }
-        echo "------------------------";
+        echo "<br><br>------------------------";
         ?>
     </p>
     <p>
@@ -97,7 +97,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         }
         ?>
     </p>
-
+  </div>
 
 </body>
 
