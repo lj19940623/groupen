@@ -33,7 +33,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
         <a href="product.php">Products</a>
         <a href="group.php">Groups</a>
         <a class="active" href="circle.php">Circles</a>
-        <form action="circle.php" method="get">
+        <form action="circle.php" method="get" style="margin:0">
             <input type="text" placeholder="Search circles" name="searchName">
             <input type="submit" value="Search">
         </form>

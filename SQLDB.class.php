@@ -74,6 +74,11 @@ class groupenDB{
         }
         return "Unknown error, please let admin known";
     }
+    public function checkAdmin(){
+        $sql = "SELECT COUNT(uid) FROM user where uid='".$_SESSION["login_user"]."' AND admin=1";
+        $result = mysqli_query($this->database,$sql);
+        return mysqli_fetch_array($result)[0]==1;
+    }
 
     //===================================================================
     // Product part
@@ -319,6 +324,10 @@ class groupenDB{
         }else{
             return false;
         }
+    }
+    public function deleteCircle($c_cid){
+        $sql = "DELETE FROM circle WHERE cid = ".$c_cid;
+        return $result = mysqli_query($this->database, $sql);
     }
     // listing Circles
     public function listingCircles($numPerDiv, $offset){

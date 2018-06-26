@@ -84,6 +84,7 @@ CREATE TABLE circle_user
     PRIMARY KEY (user_uid, circle_cid),
     FOREIGN KEY (user_uid) REFERENCES user (uid),
     FOREIGN KEY (circle_cid) REFERENCES circle (cid)
+    ON DELETE CASCADE
 );
 CREATE TABLE user_msg
 (
@@ -106,6 +107,7 @@ CREATE TABLE circle_msg
     PRIMARY KEY (cmid),
     FOREIGN KEY (sender_uid) REFERENCES user (uid),
     FOREIGN KEY (circle_cid) REFERENCES circle (cid)
+    ON DELETE CASCADE
 );
 CREATE TABLE friend_with
 (

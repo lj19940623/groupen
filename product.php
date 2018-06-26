@@ -120,7 +120,7 @@ $link = groupenDB::getInstance();
     </div>
     <div class="icon">
     <form action="product.php" method="get">
-          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:(floor((($numOfProduct-1)/$numPerDiv+1))+1) ?>  min="1" max="<?php echo floor((($numOfProduct-1)/$numPerDiv+1))+1 ?>">
+          <input type="number" name="productDiv" value =  <?php echo isset($_GET["productDiv"])?$_GET["productDiv"]+1:(floor((($numOfProduct-1)/$numPerDiv+1))) ?>  min="1" max="<?php echo floor((($numOfProduct-1)/$numPerDiv+1)) ?>">
           <input type="submit" value="Go">
     </form>
     </div>

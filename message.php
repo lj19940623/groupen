@@ -69,7 +69,7 @@ if($_SERVER["REQUEST_METHOD"] == "GET") {
     <p>
         <form action="message.php" method="get">
             Send friend request to:
-            <input type="text" name="requesTo" value="User name" required>
+            <input type="text" name="requesTo" placeholder="User name" required>
             <input type="submit" value="Send request">
         </form>
         <br><br>------------------------
