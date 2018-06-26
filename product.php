@@ -99,7 +99,6 @@ $link = groupenDB::getInstance();
 
     while($row = mysqli_fetch_assoc($productList)) {
         $detailLink = "<a href=\"productDetail.php?ProductID={$row["pid"]}\">";
-
         echo "<div class=\"icon\">";
         echo $detailLink." <img src= \"Resources/ProductImage/".$row["photo_url"]."\"></a><br>" ;
         echo $detailLink.$row["name"]."</a><br>$".$row["price"]."<br>";
