@@ -514,5 +514,17 @@ class groupenDB{
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
+
+    public function IOSlistingCircles(){
+        $sql = "SELECT * FROM circle ORDER BY cid ASC";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    // listing Circles
+    public function IOSlistingCirclesByName($name){
+        $sql = "SELECT * FROM circle WHERE name LIKE '%".$name."%' ORDER BY cid ASC";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
 }
 ?>

@@ -7,7 +7,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $postPassword = $_POST['password'];
     $postEmail = $_POST['email'];
     $link = groupenDB::getInstance();
-    $response = $link -> IOSRegister($postUsername, $postPassword, $postEmail);
+    $response["accountInfo"] = $link -> IOSRegister($postUsername, $postPassword, $postEmail);
 }
 echo json_encode($response);
 ?>

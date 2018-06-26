@@ -6,7 +6,7 @@
     $productID = $_POST["ProductID"];
     $link = groupenDB::getInstance();
     $product = $link->searchByPid($productID);
-    $response[] = $product;
+    $response["product"] = $product;
   }
   echo json_encode($response);
  ?>
