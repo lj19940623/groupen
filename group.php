@@ -34,7 +34,7 @@ $link = groupenDB::getInstance();
         <a class="active" href="group.php">Groups</a>
         <a href="circle.php">Circles</a>
         <form action="group.php" method="get" style="margin:0">
-            <input type="text" placeholder="Search by product pid" name="pid">
+            <input type="text" placeholder="Search group by product id" name="pid">
             <input type="submit" value="Search">
         </form>
         <div class="topnavRight">
@@ -65,7 +65,7 @@ $link = groupenDB::getInstance();
     // echo "offset = " . ($numPerDiv * $productDiv);
     $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv),(isset($_GET["pid"])?$_GET["pid"]:-1));
     $numOfGroup = $link -> countGroup(isset($_GET["pid"])?$_GET["pid"]:-1);
-    echo "<br> Groupen has ". $numOfGroup . " groups ".((!isset($_GET["pid"])||$_GET["pid"]==-1)?"in total":("for product with pid ".$_GET["pid"]))." <br><br>";
+    echo "<br> Groupen has ". $numOfGroup . " groups ".((!isset($_GET["pid"])||$_GET["pid"]==-1)?"in total":("for product with id eqauls".$_GET["pid"]))." <br><br>";
     while($r = mysqli_fetch_assoc($groupList)) {
         echo "Group id:" . $r["gid"] . "  Product id:" . $r["product_pid"] . "  Started by:" . $r["starter_uid"]. " ";
         $groupenSize = $link->getProductGroupingSizeByPid($r["product_pid"]);

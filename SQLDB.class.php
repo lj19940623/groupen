@@ -458,16 +458,70 @@ class groupenDB{
                 $result = mysqli_query($this->database,$sql);
                 return $result;
             }
-            //===================================================================
-            //IOS part
-            public function IOSLogin($userAccount, $userPassword){
-                $myusername = mysqli_real_escape_string($this->database, $userAccount);
-                $mypassword = mysqli_real_escape_string($this->database, $userPassword);
-                $sql = "SELECT uid FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
-                $result = mysqli_query($this->database,$sql);
-                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                $count = mysqli_num_rows($result);
-                return $count;
-            }
+
+
+
+
+
+
+
+    //===================================================================
+    //IOS part
+
+    // login
+    // return user data if successful
+    // return false if fail
+    public function IOSLogin($userAccount, $userPassword){
+        $response = array();
+        $myusername = mysqli_real_escape_string($this->database, $userAccount);
+        $mypassword = mysqli_real_escape_string($this->database, $userPassword);
+        $sql = "SELECT * FROM user WHERE uid = '$myusername' AND psw = '$mypassword'";
+        $result = mysqli_query($this->database,$sql);
+        if(mysqli_num_rows($result) == 1){
+          $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+          $response[] = $row;
+        }else{
+          $response["message"] = "fail";
         }
-        ?>
+        return $response;
+    }
+
+    // register
+    // return user data if successful
+    // return false if fail
+    public function IOSRegister($userAccount, $userPassword, $userEmail){
+        $response = array();
+        $myUsername = mysqli_real_escape_string($this->database, $userAccount);
+        $myPassword = mysqli_real_escape_string($this->database, $userPassword);
+        $myEmail = mysqli_real_escape_string($this->database, $userEmail);
+
+        // check registered
+        $sql = "SELECT * FROM user WHERE uid = '$myUsername'";
+        $result = mysqli_query($this->database,$sql);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $count = mysqli_num_rows($result);
+        if($count > 0 ) {
+            $response["message"] = "Username is registered.";
+        }
+        // insert with checking valid
+        $sql = "INSERT INTO user (uid, psw, email) VALUES ('" .$myUsername. "', '" .$myPassword. "', '" .$myEmail. "')";
+        if(mysqli_query($this->database, $sql)){
+          $sql = "SELECT * FROM user WHERE uid = '$myUsername'";
+          $result = mysqli_query($this->database,$sql);
+          $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+          $response[] = $row;
+        }else{
+          $response["message"] = "Username is registered.";
+        }
+        return $response;
+    }
+
+    // get the list of products
+    // return a list of product
+    public function IOSGetProductList($numPerDiv, $offset){
+        $sql = "SELECT name, price, photo_url,first_discount, discount FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+}
+?>
