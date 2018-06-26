@@ -3,14 +3,29 @@
 
 $rows = array();
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-  $numPerDiv = $_POST['numPerDiv'];
-  $groupDiv = $_POST['groupDiv'];
   $link = groupenDB::getInstance();
-  $groupList = $link -> listGroup($numPerDiv,($numPerDiv*$groupDiv),(isset($_POST["pid"])?$_POST["pid"]:-1));
-  $i = 0;
-  while($row = mysqli_fetch_assoc($groupList)) {
-    $rows[$i] = $row;
-    $i+1;
+  if (isset($_POST["search"])) {
+      $groups = $link -> IOSlistingGroupsByName($_POST["search"]);
+      $groupRows = array();
+      while($row = mysqli_fetch_assoc($groups)) {
+        array_push($groupRows, $row);
+      }
+      $rows["data"] = $groupRows;
+  }else if(isset($_POST["uid"]) && isset($_POST["gid"])){
+    $joinResult = $link -> joinGroup($_POST["uid"], $_POST['gid']);
+    $rows["JoinResult"] = $joinResult;
+  }else if(isset($_POST["uid"]) && isset($_POST["pid"])){
+    $uid = $_POST['uid'];
+    $pid = $_POST['pid'];
+    $result = $link -> makeNewGroup($uid, $pid);
+    $rows["newGroup"] = $result;
+  }else{
+      $groups = $link -> IOSlistGroup();
+      $groupRows = array();
+      while($row = mysqli_fetch_assoc($groups)) {
+        array_push($groupRows, $row);
+      }
+      $rows["data"] = $groupRows;
   }
 }
 echo json_encode($rows);

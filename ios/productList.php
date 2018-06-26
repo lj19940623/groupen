@@ -2,23 +2,26 @@
   require '..\SQLDB.class.php';
   $rows = array();
   if($_SERVER["REQUEST_METHOD"] == "POST") {
-    $numPerDiv = $_POST['numberPerDiv'];
-    $productDiv = $_POST['productDiv'];
     $link = groupenDB::getInstance();
     if(isset($_POST["search"])){
-      $productList = $link -> getProductListBySearch($numPerDiv,($numPerDiv*$productDiv),$_POST["search"]);
-      $i = 0;
+      $productList = $link -> IOSgetProductListBySearch($_POST["search"]);
+      $products = array();
       while($row = mysqli_fetch_assoc($productList)) {
-        $rows[$i] = $row;
-        $i+1;
+        array_push($products, $row);
       }
+      $rows["data"] = $products;
     }else{
-      $productList = $link -> IOSGetProductList($numPerDiv,($numPerDiv*$productDiv));
-      $i = 0;
+      $productList = $link -> IOSGetProductList();
+      $products = array();
       while($row = mysqli_fetch_assoc($productList)) {
-        $rows[$i] = $row;
-        $i+1;
+        $path = '../Resources/ProductImage/'.$row["photo_url"];
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $base64 = 'data:image/'.$type.';base64,'.base64_encode($data);
+        $row["photo"] = $base64;
+        array_push($products, $row);
       }
+      $rows["data"] = $products;
     }
 }
 echo json_encode($rows);

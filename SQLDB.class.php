@@ -518,8 +518,13 @@ class groupenDB{
 
     // get the list of products
     // return a list of product
-    public function IOSGetProductList($numPerDiv, $offset){
-        $sql = "SELECT name, price, photo_url,first_discount, discount FROM product ORDER BY pid ASC LIMIT " . $numPerDiv . " OFFSET " . $offset;
+    public function IOSGetProductList(){
+        $sql = "SELECT name, price, photo_url,first_discount, discount FROM product ORDER BY pid ASC";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+    public function IOSgetProductListBySearch($search){
+        $sql = "SELECT * FROM product WHERE name LIKE '%".$search."%' ORDER BY pid ASC";
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
@@ -532,6 +537,18 @@ class groupenDB{
     // listing Circles
     public function IOSlistingCirclesByName($name){
         $sql = "SELECT * FROM circle WHERE name LIKE '%".$name."%' ORDER BY cid ASC";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+
+    public function IOSlistGroup(){
+        $sql = "SELECT * FROM groups ";
+        $result = mysqli_query($this->database,$sql);
+        return $result;
+    }
+
+    public function IOSlistingGroupsByName($name){
+        $sql = "SELECT * FROM groups WHERE product_pid = '%".$name."%' ORDER BY gid ASC";
         $result = mysqli_query($this->database,$sql);
         return $result;
     }
